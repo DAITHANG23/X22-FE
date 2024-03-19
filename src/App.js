@@ -5,11 +5,14 @@ import Register from "./pages/Register";
 import ErrorPage from "./pages/ErrorPage";
 import Dashboard from "./pages/Dashboard";
 import AppContextProvider from "./context/AppContext";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 function App() {
   return (
     <AppContextProvider>
       <div className="App">
+        <Header />
         <Routes>
           <Route path="/" element={<Navigate to="/dashboard" />} />
 
@@ -21,6 +24,7 @@ function App() {
 
           <Route path="/*" element={<ErrorPage />} />
         </Routes>
+        <Footer />
       </div>
     </AppContextProvider>
   );
