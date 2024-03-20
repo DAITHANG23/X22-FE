@@ -1,7 +1,8 @@
 import React from "react";
+import { BoxContainer } from "./Header.styles";
 
 const Header = () => {
-  return <div>Header</div>;
+  return <BoxContainer>Header</BoxContainer>;
 };
 
 export default Header;
