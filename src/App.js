@@ -11,7 +11,7 @@ import Footer from "./components/Footer";
 function App() {
   return (
     <AppContextProvider>
-      <div className="App">
+      <div className="container">
         <Header />
         <Routes>
           <Route path="/" element={<Navigate to="/dashboard" />} />
