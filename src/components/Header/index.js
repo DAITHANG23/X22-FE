@@ -11,11 +11,12 @@ import {
   StyledBoxName,
   StyledTextLogout,
   StyledIconButton,
+  StyledButtonSignIn,
+  StyledLink,
 } from "./Header.styles";
 import {
   Avatar,
   Box,
-  Button,
   Container,
   Divider,
   Menu,
@@ -222,29 +223,9 @@ const Header = () => {
               </Menu>
             </StyledBoxAvatar>
           ) : (
-            <Button
-              sx={{
-                fontSize: "14px",
-                fontWeight: 700,
-                border: "1px solid #94999C",
-                borderRadius: "8px",
-                padding: "5px 12px",
-                backgroundColor: "#FFF",
-                textTransform: "none",
-                color: "#121212",
-                "&:hover": {
-                  border: "1px solid #121212",
-                  backgroundColor: "#E8ECEE",
-                },
-              }}
-            >
-              <Link
-                href={"/login"}
-                style={{ textDecoration: "none", color: "#121212" }}
-              >
-                Sign in
-              </Link>
-            </Button>
+            <StyledButtonSignIn>
+              <StyledLink href={"/login"}>Sign in</StyledLink>
+            </StyledButtonSignIn>
           )}
         </Toolbar>
       </Container>

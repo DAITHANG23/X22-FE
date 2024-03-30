@@ -37,7 +37,57 @@ const getTheme = () => {
         disabled: colors.ghostDisabled,
       },
     },
-    spacing: [8, 12, 16, 20, 24, 32, 48, 56, 170],
+    spacing: [0, 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96, 104, 112, 120],
+    components: {
+      MuiInputBase: {
+        root: {
+          fontSize: "16px",
+          minHeight: 44,
+        },
+      },
+      MuiFormLabel: { asterisk: { color: colors.error } },
+      MuiCssBaseline: {
+        styleOverrides: {
+          "*::-webkit-scrollbar": {
+            width: "8px",
+            height: "8px",
+          },
+          "*::-webkit-scrollbar-thumb": {
+            background: "rgb(151, 151, 151)",
+            borderRadius: "20px",
+          },
+          "*::-webkit-scrollbar-track": {
+            background: "rgba(0, 0, 0, 0.04)",
+            borderRadius: "20px",
+          },
+          ".MuiAutocomplete-option": {
+            "&:hover": {
+              color: colors.primary,
+              "& h6": {
+                color: colors.primary,
+                fontWeight: 400,
+              },
+            },
+            '&[aria-selected="true"]': {
+              fontWeight: 500,
+              color: colors.primary,
+              "& h6": {
+                fontWeight: 500,
+                color: colors.primary,
+              },
+            },
+          },
+        },
+      },
+      MuiLink: {
+        button: {
+          "&:disabled": {
+            cursor: "not-allowed",
+          },
+        },
+      },
+    },
+
     breakpoints: {
       values: {
         xs: 0,

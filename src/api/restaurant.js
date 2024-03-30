@@ -5,4 +5,8 @@ export default {
   getListRestaurantData: () => {
     return axiosWrapper.get("/restaurantList");
   },
+
+  getRestaurantDetail: ({ restaurantId }) => {
+    return axiosWrapper.get(`restaurant/${restaurantId}`);
+  },
 };
