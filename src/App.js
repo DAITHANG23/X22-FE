@@ -8,6 +8,7 @@ import AppContextProvider from "./context/AppContext";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import RestaurantDetail from "./pages/Dashboard/components/RestaurantDetail";
+import RestaurantList from "./pages/RestaurantList";
 
 function App() {
   return (
@@ -24,6 +25,8 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
 
           <Route path="/restaurantdetail" element={<RestaurantDetail />} />
+
+          <Route path="/restaurant-list" element={<RestaurantList />} />
 
           <Route path="/*" element={<ErrorPage />} />
         </Routes>

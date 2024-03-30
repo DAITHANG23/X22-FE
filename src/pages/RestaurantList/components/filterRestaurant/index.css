@@ -1,0 +1,15 @@
+.filter {
+  background-color: #fff;
+}
+
+.filter > h1 {
+  padding: 20px 0;
+}
+
+.search-label {
+  margin-bottom: 10px;
+}
+
+.search-field {
+  width: 100%;
+}
