@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard";
 import AppContextProvider from "./context/AppContext";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import RestaurantDetail from "./pages/Dashboard/components/RestaurantDetail";
 
 function App() {
   return (
@@ -21,6 +22,8 @@ function App() {
           <Route path="/register" element={<Register />} />
 
           <Route path="/dashboard" element={<Dashboard />} />
+
+          <Route path="/restaurantdetail" element={<RestaurantDetail />} />
 
           <Route path="/*" element={<ErrorPage />} />
         </Routes>

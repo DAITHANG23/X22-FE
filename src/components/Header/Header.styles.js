@@ -9,6 +9,7 @@ import {
   IconButton,
 } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
+import { Link } from "react-router-dom";
 export const useStyles = makeStyles((theme) => ({
   menuContainer: {
     "& .MuiPaper-root": {
@@ -188,7 +189,7 @@ export const StyledAppbar = styled(AppBar)(({ theme }) => ({
   top: "0",
   left: "0",
   zIndex: "10",
-  backgroundColor: theme.palette.primary.main,
+  backgroundColor: "rgba(208,33,40,0.8)",
 }));
 
 export const StyledTextLogout = styled(Typography)(() => ({
@@ -208,4 +209,24 @@ export const StyledIconButton = styled(IconButton)(({ anchorElUser }) => ({
   border: 0,
   outline: 0,
   transition: "background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+}));
+
+export const StyledButtonSignIn = styled(Button)(({ theme }) => ({
+  fontSize: "14px",
+  fontWeight: 700,
+  border: "1px solid #94999C",
+  borderRadius: "8px",
+  padding: "5px 12px",
+  backgroundColor: theme.palette.common.white,
+  textTransform: "none",
+  color: theme.palette.common.black,
+  "&:hover": {
+    border: `1px solid ${theme.palette.common.black}`,
+    backgroundColor: theme.palette.grey[800],
+  },
+}));
+
+export const StyledLink = styled(Link)(({ theme }) => ({
+  extDecoration: "none",
+  color: theme.palette.common.black,
 }));

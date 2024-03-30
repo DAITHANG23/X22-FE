@@ -1,7 +1,7 @@
 import React from "react";
 
 const Dashboard = () => {
-  return <div>Dashboard</div>;
+  return <div style={{ height: "100vh" }}>Dashboard</div>;
 };
 
 export default Dashboard;
