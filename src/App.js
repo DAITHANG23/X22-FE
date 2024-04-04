@@ -4,11 +4,12 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ErrorPage from "./pages/ErrorPage";
 import Dashboard from "./pages/Dashboard";
-import AppContextProvider from "./context/AppContext";
+import { AppContextProvider } from "./context/AppContext";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import RestaurantDetail from "./pages/Dashboard/components/RestaurantDetail";
 import RestaurantList from "./pages/RestaurantList";
+import Reservations from "./pages/Reservations";
 
 function App() {
   return (
@@ -27,6 +28,8 @@ function App() {
           <Route path="/restaurantdetail" element={<RestaurantDetail />} />
 
           <Route path="/restaurant-list" element={<RestaurantList />} />
+
+          <Route path="/reservations" element={<Reservations />} />
 
           <Route path="/*" element={<ErrorPage />} />
         </Routes>
