@@ -189,7 +189,7 @@ export const StyledAppbar = styled(AppBar)(({ theme }) => ({
   top: "0",
   left: "0",
   zIndex: "10",
-  backgroundColor: "rgba(208,33,40,0.8)",
+  backgroundColor: "rgba(208,33,40)",
 }));
 
 export const StyledTextLogout = styled(Typography)(() => ({
