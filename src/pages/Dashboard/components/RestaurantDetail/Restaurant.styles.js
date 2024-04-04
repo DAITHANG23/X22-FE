@@ -1,4 +1,4 @@
-import { Box, Container, Typography, styled } from "@mui/material";
+import { Box, Button, Container, Typography, styled } from "@mui/material";
 
 export const StyledContainer = styled(Container)(() => ({
   paddingTop: "130px",
@@ -44,4 +44,21 @@ export const StyledTextView = styled(Typography)(({ theme }) => ({
   textAlign: "center",
   fontSize: "14px",
   marginTop: 5,
+}));
+
+export const StyledButtonOrder = styled(Button)(({ theme }) => ({
+  borderRadius: "8px",
+  padding: theme.spacing(1, 2),
+  width: "200px",
+  textTransform: "none",
+  marginTop: theme.spacing(2),
+  fontWeight: 600,
+  fontSize: "16px",
+  backgroundColor: theme.palette.primary.main,
+  opacity: 0.8,
+  color: theme.palette.common.white,
+  "&:hover": {
+    backgroundColor: theme.palette.primary.main,
+    opacity: 1,
+  },
 }));
