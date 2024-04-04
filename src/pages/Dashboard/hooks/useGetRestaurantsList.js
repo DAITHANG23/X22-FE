@@ -9,8 +9,7 @@ const getListRestaurantData = () => {
 const useGetRestaurantList = () => {
   const { data: listRestaurantData, isLoading } = useQuery(
     LIST_RESTAURANT_QUERY_KEY,
-    getListRestaurantData(),
-    { enabled: false }
+    getListRestaurantData
   );
   return {
     listRestaurantData,
