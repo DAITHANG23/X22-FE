@@ -5,8 +5,10 @@ import HomeIcon from "@mui/icons-material/Home";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import CallMadeIcon from "@mui/icons-material/CallMade";
-import PendingIcon from "@mui/icons-material/Pending";
 import FilterRestaurant from "./components/filterRestaurant";
+import DialogRateRestaurant from "./components/dialogRateRestaurant";
+import Button from "@mui/material/Button";
+import { Box, CircularProgress } from "@mui/material";
 
 const RestaurantList = () => {
   const [restaurants, setRestaurants] = useState([]);
@@ -14,6 +16,7 @@ const RestaurantList = () => {
   const [searchTimeout, setSearchTimeout] = useState(null);
   const [loading, setLoading] = useState(false);
   const [noResults, setNoResults] = useState(false);
+  const [open, setOpen] = React.useState(false);
 
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
@@ -63,7 +66,7 @@ const RestaurantList = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `http://localhost:3002/restaurant/search?name=${query}&address=${query}`
+        `http://localhost:3002/restaurant?name=${query}&address=${query}`
       );
       if (response.data.data.length === 0) {
         setNoResults(true);
@@ -89,6 +92,10 @@ const RestaurantList = () => {
     }
   };
 
+  const handleClickOpenDiaglog = () => {
+    setOpen(true);
+  };
+
   return (
     <div className="restaurant-list-container">
       <div className="restaurant-list-header flex">
@@ -104,9 +111,9 @@ const RestaurantList = () => {
             <h1>Danh sách nhà hàng: {totalRecords} kết quả </h1>
             <ul>
               {loading && (
-                <div style={{ textAlign: "center", marginTop: "20px" }}>
-                  <PendingIcon />
-                </div>
+                <Box sx={{ display: "flex" }}>
+                  <CircularProgress />
+                </Box>
               )}
               {noResults && (
                 <div style={{ textAlign: "center", marginTop: "20px" }}>
@@ -147,6 +154,22 @@ const RestaurantList = () => {
                         <MenuBookIcon></MenuBookIcon> Thực đơn
                         <CallMadeIcon></CallMadeIcon>
                       </div>
+
+                      {/* CLICK TO OPEN DIALOG */}
+                      <React.Fragment>
+                        <Button
+                          variant="outlined"
+                          onClick={handleClickOpenDiaglog}
+                        >
+                          Đánh giá nhà hàng
+                        </Button>
+
+                        <DialogRateRestaurant
+                          setOpen={setOpen}
+                          open={open}
+                          restaurantId={restaurant.id}
+                        ></DialogRateRestaurant>
+                      </React.Fragment>
                     </div>
                   </div>
                 </li>
