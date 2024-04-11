@@ -45,7 +45,7 @@ const getTheme = () => {
           minHeight: 44,
         },
       },
-      MuiFormLabel: { asterisk: { color: colors.error } },
+      MuiFormLabel: { styleOverrides: { asterisk: { color: colors.error } } },
       MuiCssBaseline: {
         styleOverrides: {
           "*::-webkit-scrollbar": {
