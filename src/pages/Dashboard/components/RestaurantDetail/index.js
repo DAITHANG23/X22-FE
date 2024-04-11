@@ -1,4 +1,11 @@
-import { Box, Button, Typography, Rating, Modal } from "@mui/material";
+import {
+  Box,
+  Button,
+  Typography,
+  Rating,
+  Modal,
+  IconButton,
+} from "@mui/material";
 import React, { useState } from "react";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import AsNavFor from "../../../../shares/components/Slider/SliderAsNavFor";
@@ -17,6 +24,10 @@ import {
   StyledTitleRestaurant,
 } from "./Restaurant.styles";
 import DishesListOrder from "./DishesListOrder";
+import useGetRestaurantDetails from "../../hooks/useGetRestaurantDetail";
+import InfoCustomerForm from "./InfoCustomerForm";
+import CloseIcon from "@mui/icons-material/Close";
+import { useNavigate } from "react-router-dom";
 
 const RESTAURANTS_DISHES_LIST_DATA = [
   {
@@ -69,12 +80,47 @@ const style = {
 const RestaurantDetail = () => {
   const [open, setOpen] = useState(false);
   const [cart, setCart] = useState();
+  const [orderDishesData, setOrderDishesData] = useState([]);
+  const [nextStep, setNextStep] = useState(false);
+
   const onLick = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
   };
+
+  const navigate = useNavigate();
+
+  const handleOnBack = () => {
+    const to = `/`;
+    navigate(to);
+  };
+
+  console.log("nextStep:", nextStep);
+  const id = "6604306727fe5e635988056e";
+
+  const { restaurantDetailData } = useGetRestaurantDetails(id);
+
+  const {
+    name,
+    phoneNumber,
+    address,
+    images,
+    // avgRate,
+    // type,
+    // taste,
+    description,
+    timeStart,
+    timeEnd,
+  } = restaurantDetailData || {};
+
+  const IMAGES_LIST_RESTAURANT = [
+    ...(images || []).map((url) => {
+      return { image: url };
+    }),
+    ...IMAGES_LIST,
+  ];
 
   return (
     <StyledContainer container>
@@ -91,44 +137,99 @@ const RestaurantDetail = () => {
       >
         <Fade in={open}>
           <Box sx={style}>
-            <DishesListOrder
-              data={RESTAURANTS_DISHES_LIST_DATA}
-              cart={cart}
-              setCart={setCart}
-            />
+            {!nextStep ? (
+              <DishesListOrder
+                data={RESTAURANTS_DISHES_LIST_DATA}
+                cart={cart}
+                setCart={setCart}
+                setNextStep={setNextStep}
+                setOrderDishesData={setOrderDishesData}
+              />
+            ) : (
+              <InfoCustomerForm
+                setNextStep={setNextStep}
+                orderDishesData={orderDishesData}
+                idRestaurant={id}
+                handleClose={handleClose}
+              />
+            )}
+            <IconButton
+              onClick={handleClose}
+              sx={{ position: "absolute", top: "10px", right: "10px" }}
+            >
+              <CloseIcon />
+            </IconButton>
           </Box>
         </Fade>
       </Modal>
+
       <Box>
         <Button sx={{ color: "black" }}>
           <KeyboardArrowLeftIcon />{" "}
-          <StyledTextBtnBack>Trở về</StyledTextBtnBack>
+          <StyledTextBtnBack onClick={handleOnBack}>Trở về</StyledTextBtnBack>
         </Button>
       </Box>
 
       <StyledBoxContentContainer>
         <StyledBoxSlider>
-          <AsNavFor imagesList={IMAGES_LIST} />
+          <AsNavFor imagesList={IMAGES_LIST_RESTAURANT} />
         </StyledBoxSlider>
 
         <StyledBoxContentDetails>
-          <StyledTitleRestaurant>Nhà hàng Bến xưa</StyledTitleRestaurant>
+          <StyledTitleRestaurant>{name}</StyledTitleRestaurant>
 
           <StyledBoxRating>
-            <Rating />
+            <Rating defaultValue={Math.round(4.9)} precision={0.1} readOnly />
             <StyledTextView>1.1k views</StyledTextView>
           </StyledBoxRating>
 
-          <Typography py={2}>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised in the 1960s
-            with the release of Letraset sheets containing Lorem Ipsum passages,
-            and more recently with desktop publishing software like Aldus
-            PageMaker including versions of Lorem Ipsum.
+          <Box>
+            <Typography
+              sx={{ color: "#16171C", fontWeight: 700, fontSize: 16 }}
+            >
+              Địa chỉ:{" "}
+              <span style={{ color: "#888B94", fontWeight: 500, fontSize: 15 }}>
+                {address}
+              </span>
+            </Typography>
+          </Box>
+
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              paddingTop: "16px",
+            }}
+          >
+            <Typography
+              sx={{ color: "#16171C", fontWeight: 700, fontSize: 16 }}
+            >
+              Số điện thoại:{" "}
+              <span style={{ color: "#888B94", fontWeight: 500, fontSize: 15 }}>
+                {phoneNumber}
+              </span>
+            </Typography>
+            <Typography
+              sx={{ color: "#16171C", fontWeight: 700, fontSize: 16 }}
+            >
+              Thời gian mở:{" "}
+              <span style={{ color: "#888B94", fontWeight: 500, fontSize: 15 }}>
+                {timeStart} - {timeEnd}
+              </span>
+            </Typography>
+          </Box>
+
+          <Typography
+            py={2}
+            sx={{
+              color: "#888B94",
+              fontWeight: 400,
+              fontSize: 16,
+              lineHeight: 1.5,
+            }}
+          >
+            {description}
           </Typography>
 
           <Typography sx={{ paddingTop: "12px" }}></Typography>

@@ -6,7 +6,8 @@ export default {
     return axiosWrapper.get("/restaurant");
   },
 
-  getRestaurantDetail: ({ restaurantId }) => {
-    return axiosWrapper.get(`restaurant/${restaurantId}`);
+  getRestaurantDetail: async ({ restaurantId }) => {
+    const res = await axiosWrapper.get(`/restaurant/${restaurantId}`);
+    return res.data.data?.restaurant;
   },
 };

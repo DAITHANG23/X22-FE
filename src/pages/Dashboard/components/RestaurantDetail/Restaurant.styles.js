@@ -1,4 +1,40 @@
 import { Box, Button, Container, Typography, styled } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+
+export const useStyles = makeStyles((theme) => ({
+  form: {
+    "& .MuiInputLabel-root.Mui-focused": {
+      color: theme.palette.common.black,
+    },
+
+    boxSizing: "border-box",
+    marginTop: theme.spacing(2),
+    "& .MuiTextField-root": {
+      marginTop: theme.spacing(2.5),
+    },
+    "& .TextField-none-margin": {
+      "& .MuiFormLabel-root": {
+        marginBottom: 2,
+      },
+
+      "& .MuiTextField-root": {
+        marginTop: 0,
+      },
+    },
+
+    "& .MuiFormHelperText-root": {
+      color: theme.palette.error.main,
+    },
+
+    "& .MuiOutlinedInput-input:-webkit-autofill": {
+      borderRadius: "inherit",
+      backgroundColor: "transparent !important",
+      "-webkit-box-shadow": "0 0 0 50px white inset",
+    },
+  },
+
+  textFieldNumberPhone: {},
+}));
 
 export const StyledContainer = styled(Container)(() => ({
   paddingTop: "130px",
@@ -38,6 +74,7 @@ export const StyledBoxRating = styled(Box)(() => ({
   flexDirection: "row",
   alignItems: "center",
   gap: "8px",
+  paddingBottom: "24px",
 }));
 export const StyledTextView = styled(Typography)(({ theme }) => ({
   color: theme.palette.grey[800],

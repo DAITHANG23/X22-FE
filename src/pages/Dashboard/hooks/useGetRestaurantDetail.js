@@ -10,7 +10,7 @@ const useGetRestaurantDetails = (restaurantId) => {
   const { data: restaurantDetailData, isLoading } = useQuery(
     [RESTAURANT_DETAIL_QUERY_KEY, restaurantId],
     () => getRestaurantDetail({ restaurantId }),
-    { enabled: false }
+    { enabled: true }
   );
   return {
     restaurantDetailData,

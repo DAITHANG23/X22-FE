@@ -2,21 +2,22 @@ import { Avatar, Box, Button, Checkbox, Typography } from "@mui/material";
 import React, { useCallback, useMemo, useState } from "react";
 import Table from "../../../../shares/components/Table";
 import { formatCurrency } from "../../../../utils";
-import useOrderRestaurant from "../../hooks/useOrderRestaurant";
 
-const DishesListOrder = ({ data, setNextStep }) => {
+const DishesListOrder = ({ data, setNextStep, setOrderDishesData }) => {
   const [selectedData, setSelectedData] = useState([]);
 
-  //   const { onUpdateOrderRestaurant } = useOrderRestaurant();
-
-  const onSelectedRowChange = useCallback((data) => {
-    if (data) {
-      const newData = data.map((i) => {
-        return { ...i, quantity: 1 };
-      });
-      setSelectedData(newData);
-    }
-  }, []);
+  const onSelectedRowChange = useCallback(
+    (dishesData) => {
+      if (dishesData) {
+        const newData = dishesData.map((i) => {
+          return { ...i, quantity: 1 };
+        });
+        setSelectedData(newData);
+        setOrderDishesData(newData);
+      }
+    },
+    [setOrderDishesData]
+  );
 
   const getTotalPrice = (data) => {
     let totalPrice = 0;
@@ -30,15 +31,6 @@ const DishesListOrder = ({ data, setNextStep }) => {
   const totalPrice = getTotalPrice(selectedData);
 
   const handleGotoNext = () => {
-    // console.log("selectedData:", selectedData);
-    // const params = {
-    //   dishes: {
-    //     ...selectedData,
-    //   },
-    // };
-    // onUpdateOrderRestaurant(params, () => {
-    //   setNextStep(true);
-    // });
     setNextStep(true);
   };
 
