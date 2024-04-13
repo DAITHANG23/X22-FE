@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { BoxFormGmail } from "./Login.styles"; // import the styled component
 import apiService from "../../api";
 import { useAppContext } from "../../context/AppContext";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import "./styles.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const { login } = useAppContext();
   const navigate = useNavigate();
 
@@ -20,31 +22,50 @@ const Login = () => {
         login(res.data.token);
         navigate("/");
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        setErrorMessage("Invalid email or password");
+      });
   };
 
   return (
-    <BoxFormGmail onSubmit={handleSubmit}>
-      {" "}
-      {/* use the styled component here */}
-      <label>
-        Email:
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-      </label>
-      <label>
-        Password:
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </label>
-      <input type="submit" value="Submit" />
-    </BoxFormGmail>
+    <div className="login-container">
+      <h2>Login</h2>
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="email">Email:</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="password">Password:</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        {errorMessage && <p className="error-message">{errorMessage}</p>}{" "}
+        {/* Conditionally render error message */}
+        <div className="form-group">
+          <input type="submit" value="Login" />
+        </div>
+      </form>
+      <div>
+        <p>
+          Don't have an account? <Link to="/register">Sign Up</Link>
+        </p>
+      </div>
+    </div>
   );
 };
 

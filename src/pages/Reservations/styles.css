@@ -5,7 +5,9 @@
 }
 .ReservationsMap {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 5%;
+
   margin-top: 20px;
   padding: 20px;
   font-size: 12px;
