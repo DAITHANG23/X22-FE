@@ -1,6 +1,75 @@
 .AreservationContainer {
   border-radius: 20px;
-  border: solid 1px #000000;
-  padding: 5px;
+  width: 45%;
+  border: solid 1px #3849ca;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  color: rgb(197, 48, 48);
+  padding: 10px;
   margin: 5px;
+}
+.AReservationTitle {
+  font-size: 1.2rem;
+  gap: 5px;
+  font-weight: bold;
+  display: inline-flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.AReservationRestaurant {
+  font-size: 1.2rem;
+  gap: 5px;
+  font-weight: bold;
+  display: inline-flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.AReservationDetail {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 10px;
+}
+.AreservationContainer p {
+  min-width: 40%;
+  font-size: 1rem;
+  display: inline;
+  gap: 5px;
+  display: inline-flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.AReservationStatus {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.AReservationStatus .StatusString {
+  font-size: 1rem;
+  border-radius: 20px;
+  border: solid 1px #3849ca;
+  margin-right: 10px;
+  padding: 5px 7px 5px 7px;
+  text-align: center;
+}
+.buttonCancelARS {
+  font-size: 1rem;
+  border-radius: 20px;
+  background-color: red;
+  color: white;
+  font-weight: bold;
+  margin-right: 10px;
+  padding: 5px 7px 5px 7px;
+  text-align: center;
+}
+@media (max-width: 1024px) {
+  .AreservationContainer {
+    width: 100%;
+  }
+}
+@media (max-width: 624px) {
+  .AreservationContainer p {
+    width: 100%;
+  }
 }

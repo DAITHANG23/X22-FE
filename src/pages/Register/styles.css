@@ -1,0 +1,190 @@
+.login-container,
+.signup-container {
+  background-color: #fff;
+  margin: 110px auto 0 auto;
+  padding: 20px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.login-container h2 {
+  margin-top: 0;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.form-group input[type="submit"] {
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form-group input[type="submit"]:hover {
+  background-color: #45a049;
+}
+/* styles.css */
+
+/* body {
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+} */
+
+.login-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 300px; /* Set a fixed width to the container */
+}
+
+.login-container h2 {
+  margin-top: 0;
+  margin-bottom: 20px; /* Add some bottom margin to the heading */
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px; /* Add a little bottom margin to the labels */
+}
+
+.form-group input {
+  width: calc(100% - 22px); /* Adjust width to account for padding and border */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.form-group input[type="submit"] {
+  width: 100%; /* Make submit button full width */
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form-group input[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+/* styles.css */
+
+/* body {
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+} */
+
+.signup-container,
+.login-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 300px; /* Set a fixed width to the container */
+}
+
+.signup-container h2,
+.login-container h2 {
+  margin-top: 0;
+  margin-bottom: 20px; /* Add some bottom margin to the heading */
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px; /* Add a little bottom margin to the labels */
+}
+
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group select {
+  width: calc(100% - 22px); /* Adjust width to account for padding and border */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.form-group input[type="submit"] {
+  width: 100%; /* Make submit button full width */
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form-group input[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+.error-message {
+  color: red;
+}
+
+.login-container p {
+  text-align: center;
+}
+
+.login-container p a {
+  color: #4caf50;
+  text-decoration: none;
+}
+
+.login-container p a:hover {
+  text-decoration: underline;
+}
+.radio-group {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+.radio-group label {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  font-weight: normal;
+}

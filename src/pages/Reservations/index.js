@@ -7,6 +7,7 @@ import Areservation from "./Areservation";
 const Reservations = () => {
   const { token, isLogin } = useAppContext();
   const [dataReservations, setDataReservations] = useState([]);
+  const [Error, setError] = useState("");
 
   useEffect(() => {
     if (isLogin) {
@@ -15,7 +16,11 @@ const Reservations = () => {
         .then((res) => {
           setDataReservations(res.data.reservations);
         })
-        .catch((error) => console.log(error));
+        .catch((errors) => {
+          console.log(errors);
+          if (errors.response.data.error === "Unauthorized")
+            setError("Bạn chưa đăng nhập");
+        });
     }
   }, [isLogin, token]);
 
@@ -27,8 +32,15 @@ const Reservations = () => {
           dataReservations.map((reservation, index) => (
             <Areservation reservation={reservation} key={index} />
           ))}
+        <h3 className="Error" style={{ color: "red" }}>
+          {Error}
+        </h3>
       </div>
-      {!isLogin && <div>Bạn chưa đăng nhập</div>}
+      {!isLogin && (
+        <h3 className="Error" style={{ color: "red" }}>
+          Bạn chưa đăng nhập
+        </h3>
+      )}
     </div>
   );
 };
