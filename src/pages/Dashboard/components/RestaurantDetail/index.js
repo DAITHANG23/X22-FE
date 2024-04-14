@@ -1,17 +1,7 @@
-import {
-  Box,
-  Button,
-  Typography,
-  Rating,
-  Modal,
-  IconButton,
-} from "@mui/material";
+import { Box, Button, Typography, Rating, IconButton } from "@mui/material";
 import React, { useState } from "react";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import AsNavFor from "../../../../shares/components/Slider/SliderAsNavFor";
-import PropTypes from "prop-types";
-import { useSpring, animated } from "@react-spring/web";
-import Backdrop from "@mui/material/Backdrop";
 import {
   StyledBoxContentContainer,
   StyledBoxContentDetails,
@@ -27,7 +17,9 @@ import DishesListOrder from "./DishesListOrder";
 import useGetRestaurantDetails from "../../hooks/useGetRestaurantDetail";
 import InfoCustomerForm from "./InfoCustomerForm";
 import CloseIcon from "@mui/icons-material/Close";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import ReviewsRestaurantDetail from "./ReviewsRestaurantDetail";
+import CustomModal from "../../../../shares/components/CustomModal";
 
 const RESTAURANTS_DISHES_LIST_DATA = [
   {
@@ -65,18 +57,7 @@ const IMAGES_LIST = [
   { image: "/images/restaurants/restaurant_4.jpg" },
   { image: "/images/restaurants/restaurant_5.webp" },
 ];
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "50%",
-  bgcolor: "background.paper",
-  border: "none",
-  borderRadius: "8px",
-  boxShadow: "0px 8px 24px 0px #2E34790A",
-  p: 4,
-};
+
 const RestaurantDetail = () => {
   const [open, setOpen] = useState(false);
   const [cart, setCart] = useState();
@@ -89,6 +70,7 @@ const RestaurantDetail = () => {
   const handleClose = () => {
     setOpen(false);
   };
+  const { id: idRestaurant } = useParams();
 
   const navigate = useNavigate();
 
@@ -97,10 +79,7 @@ const RestaurantDetail = () => {
     navigate(to);
   };
 
-  console.log("nextStep:", nextStep);
-  const id = "6604306727fe5e635988056e";
-
-  const { restaurantDetailData } = useGetRestaurantDetails(id);
+  const { restaurantDetailData } = useGetRestaurantDetails(idRestaurant);
 
   const {
     name,
@@ -124,44 +103,30 @@ const RestaurantDetail = () => {
 
   return (
     <StyledContainer container>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        slots={{ backdrop: Backdrop }}
-        slotProps={{
-          backdrop: {
-            TransitionComponent: Fade,
-          },
-        }}
-      >
-        <Fade in={open}>
-          <Box sx={style}>
-            {!nextStep ? (
-              <DishesListOrder
-                data={RESTAURANTS_DISHES_LIST_DATA}
-                cart={cart}
-                setCart={setCart}
-                setNextStep={setNextStep}
-                setOrderDishesData={setOrderDishesData}
-              />
-            ) : (
-              <InfoCustomerForm
-                setNextStep={setNextStep}
-                orderDishesData={orderDishesData}
-                idRestaurant={id}
-                handleClose={handleClose}
-              />
-            )}
-            <IconButton
-              onClick={handleClose}
-              sx={{ position: "absolute", top: "10px", right: "10px" }}
-            >
-              <CloseIcon />
-            </IconButton>
-          </Box>
-        </Fade>
-      </Modal>
+      <CustomModal open={open} onClose={handleClose}>
+        {!nextStep ? (
+          <DishesListOrder
+            data={RESTAURANTS_DISHES_LIST_DATA}
+            cart={cart}
+            setCart={setCart}
+            setNextStep={setNextStep}
+            setOrderDishesData={setOrderDishesData}
+          />
+        ) : (
+          <InfoCustomerForm
+            setNextStep={setNextStep}
+            orderDishesData={orderDishesData}
+            idRestaurant={idRestaurant}
+            handleClose={handleClose}
+          />
+        )}
+        <IconButton
+          onClick={handleClose}
+          sx={{ position: "absolute", top: "10px", right: "10px" }}
+        >
+          <CloseIcon />
+        </IconButton>
+      </CustomModal>
 
       <Box>
         <Button sx={{ color: "black" }}>
@@ -237,49 +202,9 @@ const RestaurantDetail = () => {
           <StyledButtonOrder onClick={onLick}>Đặt bàn</StyledButtonOrder>
         </StyledBoxContentDetails>
       </StyledBoxContentContainer>
+      <ReviewsRestaurantDetail idRestaurant={idRestaurant} />
     </StyledContainer>
   );
 };
 
 export default RestaurantDetail;
-
-const Fade = React.forwardRef(function Fade(props, ref) {
-  const {
-    children,
-    in: open,
-    onClick,
-    onEnter,
-    onExited,
-    ownerState,
-    ...other
-  } = props;
-  const style = useSpring({
-    from: { opacity: 0 },
-    to: { opacity: open ? 1 : 0 },
-    onStart: () => {
-      if (open && onEnter) {
-        onEnter(null, true);
-      }
-    },
-    onRest: () => {
-      if (!open && onExited) {
-        onExited(null, true);
-      }
-    },
-  });
-
-  return (
-    <animated.div ref={ref} style={style} {...other}>
-      {React.cloneElement(children, { onClick })}
-    </animated.div>
-  );
-});
-
-Fade.propTypes = {
-  children: PropTypes.element.isRequired,
-  in: PropTypes.bool,
-  onClick: PropTypes.any,
-  onEnter: PropTypes.func,
-  onExited: PropTypes.func,
-  ownerState: PropTypes.any,
-};

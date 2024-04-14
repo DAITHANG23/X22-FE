@@ -17,7 +17,7 @@ const useOrderRestaurant = () => {
           queryKey: [ORDER_RESTAURANT_QUERY_KEY],
           exact: true,
         });
-        enqueueSnackbar("Tạo mới thành công!", {
+        enqueueSnackbar("Đặt bàn thành công", {
           variant: "success",
           anchorOrigin: {
             vertical: "top",

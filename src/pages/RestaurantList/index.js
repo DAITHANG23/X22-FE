@@ -9,6 +9,7 @@ import FilterRestaurant from "./components/filterRestaurant";
 import DialogRateRestaurant from "./components/dialogRateRestaurant";
 import Button from "@mui/material/Button";
 import { Box, CircularProgress } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const RestaurantList = () => {
   const [restaurants, setRestaurants] = useState([]);
@@ -22,6 +23,7 @@ const RestaurantList = () => {
   const [limit, setLimit] = useState(10);
   const [totalPages, setTotalPages] = useState(0);
   const [totalRecords, setTotalRecords] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchRestaurants();
@@ -96,6 +98,11 @@ const RestaurantList = () => {
     setOpen(true);
   };
 
+  const onClickRestaurantDetail = (idRestaurant) => {
+    const to = `/restaurantdetail/${idRestaurant}`;
+    navigate(to);
+  };
+
   return (
     <div className="restaurant-list-container">
       <div className="restaurant-list-header flex">
@@ -120,60 +127,73 @@ const RestaurantList = () => {
                   <span>Không tìm thấy kết quả</span>
                 </div>
               )}
-              {restaurants.map((restaurant, index) => (
-                <li key={restaurant.id}>
-                  <img
-                    className="image-restaurant"
-                    src={restaurant.images[0]}
-                    alt=""
-                  />
-                  <div className="restaurant-detail">
-                    <div className="detail-content-header flex">
-                      <h3 className=" restaurant-name">{restaurant.name}</h3>
-                      <div style={{ gap: "5px" }} className="flex">
-                        Giờ hoạt động:
-                        <div>
-                          <span style={{ color: "green" }}>09:00 AM</span> -
-                          <span style={{ color: "red" }}>10:00 PM</span>
+              {restaurants.map((restaurant, index) => {
+                return (
+                  <li key={restaurant._id}>
+                    <img
+                      className="image-restaurant"
+                      src={restaurant.images[0]}
+                      alt=""
+                      onClick={() => onClickRestaurantDetail(restaurant._id)}
+                      style={{ cursor: "pointer" }}
+                    />
+                    <div className="restaurant-detail">
+                      <div className="detail-content-header flex">
+                        <h3
+                          className=" restaurant-name"
+                          onClick={() =>
+                            onClickRestaurantDetail(restaurant._id)
+                          }
+                          style={{ cursor: "pointer" }}
+                        >
+                          {restaurant.name}
+                        </h3>
+                        <div style={{ gap: "5px" }} className="flex">
+                          Giờ hoạt động:
+                          <div>
+                            <span style={{ color: "green" }}>09:00 AM</span> -
+                            <span style={{ color: "red" }}>10:00 PM</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div className="detail-content flex address">
-                      <HomeIcon></HomeIcon>
-                      {restaurant.address}
-                    </div>
-                    <div className="detail-content flex phone-number">
-                      <LocalPhoneIcon></LocalPhoneIcon> {restaurant.phoneNumber}
-                    </div>
-
-                    <hr className="divider" />
-                    <div className="detail-content flex type-restaurant">
-                      <div>Kiểu Âu, Kiểu Á</div>
-                      <div className="menu flex">
-                        <MenuBookIcon></MenuBookIcon> Thực đơn
-                        <CallMadeIcon></CallMadeIcon>
+                      <div className="detail-content flex address">
+                        <HomeIcon></HomeIcon>
+                        {restaurant.address}
+                      </div>
+                      <div className="detail-content flex phone-number">
+                        <LocalPhoneIcon></LocalPhoneIcon>{" "}
+                        {restaurant.phoneNumber}
                       </div>
 
-                      {/* CLICK TO OPEN DIALOG */}
-                      <React.Fragment>
-                        <Button
-                          variant="outlined"
-                          onClick={handleClickOpenDiaglog}
-                        >
-                          Đánh giá nhà hàng
-                        </Button>
+                      <hr className="divider" />
+                      <div className="detail-content flex type-restaurant">
+                        <div>Kiểu Âu, Kiểu Á</div>
+                        <div className="menu flex">
+                          <MenuBookIcon></MenuBookIcon> Thực đơn
+                          <CallMadeIcon></CallMadeIcon>
+                        </div>
 
-                        <DialogRateRestaurant
-                          setOpen={setOpen}
-                          open={open}
-                          restaurantId={restaurant.id}
-                        ></DialogRateRestaurant>
-                      </React.Fragment>
+                        {/* CLICK TO OPEN DIALOG */}
+                        <React.Fragment>
+                          <Button
+                            variant="outlined"
+                            onClick={handleClickOpenDiaglog}
+                          >
+                            Đánh giá nhà hàng
+                          </Button>
+
+                          <DialogRateRestaurant
+                            setOpen={setOpen}
+                            open={open}
+                            restaurantId={restaurant.id}
+                          ></DialogRateRestaurant>
+                        </React.Fragment>
+                      </div>
                     </div>
-                  </div>
-                </li>
-              ))}
+                  </li>
+                );
+              })}
             </ul>
             <div className="paginator">
               <button
