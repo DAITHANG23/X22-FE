@@ -2,19 +2,21 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import useRegisterAccount from "./hooks/useRegisterAccount";
 import "./styles.css";
+import Alert from "@mui/material/Alert";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState("");
   const [role, setRole] = useState(2);
   const { mutate, error } = useRegisterAccount();
-
+  const Navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
-    setErrors({});
+    setErrors("");
     const formData = {
       email,
       name,
@@ -22,14 +24,25 @@ function Register() {
       password,
       role,
     };
-    console.log("formData",formData);
     mutate(formData);
-    if (error) console.log("error:", error);
+    console.log(error);
+    if (error) setErrors(error?.response?.data?.message || "");
+    else {
+      setEmail("");
+      setName("");
+      setPhoneNumber("");
+      setPassword("");
+      setRole(2);
+      setTimeout(() => {
+        Navigate("/login");
+      }, 3000);
+    }
   };
 
   return (
     <div className="signup-container">
       <h2>Sign Up</h2>
+      {errors && <Alert severity="error">{errors}</Alert>}
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="email">Email:</label>
