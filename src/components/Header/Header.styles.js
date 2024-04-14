@@ -227,6 +227,6 @@ export const StyledButtonSignIn = styled(Button)(({ theme }) => ({
 }));
 
 export const StyledLink = styled(Link)(({ theme }) => ({
-  extDecoration: "none",
+  textDecoration: "none",
   color: theme.palette.common.black,
 }));

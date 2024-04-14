@@ -34,11 +34,17 @@ export const useStyles = makeStyles((theme) => ({
   },
 
   textFieldNumberPhone: {},
+
+  divider: {
+    transform: "scaleX(3)",
+    borderStyle: "dashed !important ",
+    borderColor: "rgba(145, 158, 171, 0.2)",
+  },
 }));
 
 export const StyledContainer = styled(Container)(() => ({
   paddingTop: "130px",
-  height: "100vh",
+  height: "auto",
 }));
 
 export const StyledTextBtnBack = styled("span")(() => ({

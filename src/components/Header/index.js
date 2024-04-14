@@ -28,9 +28,10 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import { PAGES_NAVBAR, SETTINGS_ACCOUNT } from "./constant";
+import { useAppContext } from "../../context/AppContext";
 
 const Header = () => {
-  const isLogin = true;
+  const { isLogin } = useAppContext();
   const [anchorElNav, setAnchorElNav] = useState();
 
   const [anchorElUser, setAnchorElUser] = useState();
@@ -52,15 +53,23 @@ const Header = () => {
   };
 
   const handleCloseUserMenu = (value) => {
-    if (value === "Profile") {
-      navigate("/admin/user/thang");
+    // if (value === "Profile") {
+    //   navigate("/admin/user/thang");
+    // }
+
+    if (value === "Hoạt động đặt bàn") {
+      navigate("/reservations");
     }
 
     setAnchorElUser(false);
   };
 
   const onChoosePageLink = (page) => {
-    navigate(`/${page}`);
+    if (page === "trang chủ") {
+      navigate(`/dashboard`);
+    } else {
+      navigate(`/${page}`);
+    }
   };
 
   const onClickLogoutAccount = () => {
@@ -73,7 +82,7 @@ const Header = () => {
     <StyledAppbar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Link href="/">
+          <Link to="/">
             <Box sx={{ display: { xs: "none", md: "flex" } }}>
               <StyledImageLogo
                 src="/images/logo-restaurant.png"
@@ -133,7 +142,7 @@ const Header = () => {
               flexGrow: 1,
             }}
           >
-            <Link href={"/"}>
+            <Link to="/dashboard">
               <StyledImageLogo
                 src="/images/logo-restaurant.png"
                 alt="logo"
@@ -224,7 +233,7 @@ const Header = () => {
             </StyledBoxAvatar>
           ) : (
             <StyledButtonSignIn>
-              <StyledLink href={"/login"}>Sign in</StyledLink>
+              <StyledLink to={"/login"}>Sign in</StyledLink>
             </StyledButtonSignIn>
           )}
         </Toolbar>

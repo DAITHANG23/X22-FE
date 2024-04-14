@@ -9,7 +9,6 @@ import TextNumberPhone from "../../../../shares/components/TextNumberPhone";
 import FormDateTimePicker from "../../../../shares/components/FormDateTimePicker";
 import { REGEX_CHARACTER_VALIDATE_FOR_NAME } from "../../constant";
 import useOrderRestaurant from "../../hooks/useOrderRestaurant";
-import { useParams } from "react-router-dom";
 
 const InfoCustomerForm = ({
   disable,
@@ -19,7 +18,7 @@ const InfoCustomerForm = ({
   handleClose,
 }) => {
   const classes = useStyles();
-  const { id } = useParams();
+
   const { onUpdateOrderRestaurant } = useOrderRestaurant();
 
   let initialValues = {};
@@ -59,6 +58,7 @@ const InfoCustomerForm = ({
 
     onUpdateOrderRestaurant(params, () => {
       handleClose();
+      setNextStep(false);
     });
   };
 

@@ -23,11 +23,11 @@ function App() {
 
           <Route path="/register" element={<Register />} />
 
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard" element={<RestaurantList />} />
 
-          <Route path="/restaurantdetail" element={<RestaurantDetail />} />
+          <Route path="/restaurantdetail/:id" element={<RestaurantDetail />} />
 
-          <Route path="/restaurant-list" element={<RestaurantList />} />
+          {/* <Route path="/restaurant-list" element={<RestaurantList />} /> */}
 
           <Route path="/reservations" element={<Reservations />} />
 
