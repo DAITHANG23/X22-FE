@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useRegisterAccount from "./hooks/useRegisterAccount";
 import "./styles.css";
@@ -12,8 +12,19 @@ function Register() {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState("");
   const [role, setRole] = useState(2);
-  const { mutate, error } = useRegisterAccount();
   const Navigate = useNavigate();
+  const onSuccess = () => {
+    setEmail("");
+    setName("");
+    setPhoneNumber("");
+    setPassword("");
+    setRole(2);
+    setTimeout(() => {
+      Navigate("/login");
+    }, 3000);
+  };
+  const { mutate, error } = useRegisterAccount(onSuccess);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors("");
@@ -25,19 +36,11 @@ function Register() {
       role,
     };
     mutate(formData);
-    console.log(error);
-    if (error) setErrors(error?.response?.data?.message || "");
-    else {
-      setEmail("");
-      setName("");
-      setPhoneNumber("");
-      setPassword("");
-      setRole(2);
-      setTimeout(() => {
-        Navigate("/login");
-      }, 3000);
-    }
   };
+
+  useEffect(() => {
+    if (error) setErrors(error?.response?.data?.message || "");
+  }, [error]);
 
   return (
     <div className="signup-container">

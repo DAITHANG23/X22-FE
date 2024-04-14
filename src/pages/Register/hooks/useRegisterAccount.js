@@ -7,7 +7,7 @@ const registerAccount = async (formData) => {
   return await apiService.register.createAccountCustomer({ formData });
 };
 
-const useRegisterAccount = () => {
+const useRegisterAccount = (onSuccess) => {
   const queryClient = useQueryClient();
   const { enqueueSnackbar } = useSnackbar();
   return useMutation(registerAccount, {
@@ -23,6 +23,8 @@ const useRegisterAccount = () => {
           horizontal: "center",
         },
       });
+
+      onSuccess();
     },
   });
 };
