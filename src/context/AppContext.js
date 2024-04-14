@@ -10,6 +10,11 @@ const AppContextProvider = ({ children }) => {
     setToken(token);
     localStorage.setItem("token", token);
   };
+  const logout = () => {
+    setIsLogin(false);
+    setToken("");
+    localStorage.removeItem("token");
+  };
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -20,7 +25,7 @@ const AppContextProvider = ({ children }) => {
 
   return (
     <AppContext.Provider
-      value={{ isLogin, setIsLogin, token, setToken, login }}
+      value={{ isLogin, setIsLogin, token, setToken, login, logout }}
     >
       {children}
     </AppContext.Provider>

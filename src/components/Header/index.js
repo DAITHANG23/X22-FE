@@ -36,6 +36,8 @@ const Header = () => {
 
   const [anchorElUser, setAnchorElUser] = useState();
 
+  const { logout } = useAppContext();
+
   const classes = useStyles();
 
   const navigate = useNavigate();
@@ -74,7 +76,7 @@ const Header = () => {
 
   const onClickLogoutAccount = () => {
     setAnchorElUser(false);
-
+    logout();
     navigate(`/login`);
   };
 
