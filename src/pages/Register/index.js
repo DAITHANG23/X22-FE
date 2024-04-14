@@ -112,7 +112,7 @@ function Register() {
                 name="role"
                 value={0}
                 checked={role === 0}
-                onChange={(e) => setRole(e.target.value)}
+                onChange={(e) => setRole(Number(e.target.value))}
               />
               Admin
             </label>
@@ -122,7 +122,7 @@ function Register() {
                 name="role"
                 value={2}
                 checked={role === 2}
-                onChange={(e) => setRole(e.target.value)}
+                onChange={(e) => setRole(Number(e.target.value))}
               />
               User
             </label>

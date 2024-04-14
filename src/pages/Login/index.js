@@ -15,23 +15,6 @@ const Login = () => {
   const { enqueueSnackbar } = useSnackbar();
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    if (localStorage.getItem("token") && isLogin) {
-      enqueueSnackbar("Bạn đã đăng nhập!", {
-        variant: "error",
-        anchorOrigin: {
-          vertical: "top",
-          horizontal: "center",
-        },
-        maxSnack: 1,
-        timer: 1000,
-      });
-      setTimeout(() => {
-        navigate("/");
-      }, 1000);
-    }
-  }, []);
-
   const handleSubmit = (event) => {
     event.preventDefault();
     setIsLoading(true);
@@ -39,7 +22,8 @@ const Login = () => {
     apiService.login
       .login({ formData })
       .then((res) => {
-        login(res.data.token);
+        console.log(res);
+        login(res.data.token, res.data.role);
         enqueueSnackbar("Đăng nhập thành công!", {
           variant: "success",
           anchorOrigin: {
@@ -61,6 +45,14 @@ const Login = () => {
         setIsLoading(false);
       });
   };
+
+  useEffect(() => {
+    if (localStorage.getItem("token") && isLogin) {
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
+    }
+  }, [isLogin, navigate]);
 
   return (
     <div className="login-container">
