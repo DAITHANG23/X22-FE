@@ -5,7 +5,9 @@ const AppContext = createContext();
 const AppContextProvider = ({ children }) => {
   const [isLogin, setIsLogin] = useState(false);
   const [token, setToken] = useState("");
-  const login = (token) => {
+  const [role, setRole] = useState(2);
+  const login = (token, role) => {
+    setRole(role);
     setIsLogin(true);
     setToken(token);
     localStorage.setItem("token", token);
@@ -25,7 +27,7 @@ const AppContextProvider = ({ children }) => {
 
   return (
     <AppContext.Provider
-      value={{ isLogin, setIsLogin, token, setToken, login, logout }}
+      value={{ isLogin, setIsLogin, token, setToken, login, logout, role }}
     >
       {children}
     </AppContext.Provider>

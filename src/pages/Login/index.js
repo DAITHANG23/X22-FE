@@ -15,23 +15,6 @@ const Login = () => {
   const { enqueueSnackbar } = useSnackbar();
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    if (localStorage.getItem("token") && isLogin) {
-      enqueueSnackbar("Bạn đã đăng nhập!", {
-        variant: "error",
-        anchorOrigin: {
-          vertical: "top",
-          horizontal: "center",
-        },
-        maxSnack: 1,
-        timer: 1000,
-      });
-      setTimeout(() => {
-        navigate("/");
-      }, 1000);
-    }
-  }, []);
-
   const handleSubmit = (event) => {
     event.preventDefault();
     setIsLoading(true);
@@ -39,7 +22,8 @@ const Login = () => {
     apiService.login
       .login({ formData })
       .then((res) => {
-        login(res.data.token);
+        console.log(res);
+        login(res.data.token, res.data.role);
         enqueueSnackbar("Đăng nhập thành công!", {
           variant: "success",
           anchorOrigin: {
@@ -55,18 +39,26 @@ const Login = () => {
       })
       .catch((error) => {
         console.log(error);
-        setErrorMessage("Invalid email or password");
+        setErrorMessage("Sai gmail hoặc mật khẩu");
       })
       .finally(() => {
         setIsLoading(false);
       });
   };
 
+  useEffect(() => {
+    if (localStorage.getItem("token") && isLogin) {
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
+    }
+  }, [isLogin, navigate]);
+
   return (
     <div className="login-container">
       {!isLogin && (
         <div>
-          <h2>Login</h2>
+          <h2>Đăng nhập</h2>
           <form onSubmit={handleSubmit}>
             <div className="form-group">
               <label htmlFor="email">Email:</label>
@@ -80,7 +72,7 @@ const Login = () => {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="password">Password:</label>
+              <label htmlFor="password">Mật khẩu:</label>
               <input
                 type="password"
                 id="password"
@@ -95,14 +87,14 @@ const Login = () => {
             <div className="form-group">
               <input
                 type="submit"
-                value={isLoading ? "Logging in..." : "Login"}
+                value={isLoading ? "Đang đăng nhập..." : "Đăng nhập"}
                 disabled={isLoading}
               />
             </div>
           </form>
           <div>
             <p>
-              Don't have an account? <Link to="/register">Sign Up</Link>
+              Bạn chưa có tài khoản? <Link to="/register">Đăng ký</Link>
             </p>
           </div>
         </div>

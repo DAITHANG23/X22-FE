@@ -44,7 +44,7 @@ function Register() {
 
   return (
     <div className="signup-container">
-      <h2>Sign Up</h2>
+      <h2>Đăng ký</h2>
       {errors && <Alert severity="error">{errors}</Alert>}
       <form onSubmit={handleSubmit}>
         <div className="form-group">
@@ -61,7 +61,7 @@ function Register() {
           {errors.email && <p className="error-message">{errors.email}</p>}
         </div>
         <div className="form-group">
-          <label htmlFor="name">Name:</label>
+          <label htmlFor="name">Họ và tên:</label>
           <input
             type="text"
             id="name"
@@ -74,7 +74,7 @@ function Register() {
           {errors.name && <p className="error-message">{errors.name}</p>}
         </div>
         <div className="form-group">
-          <label htmlFor="phoneNumber">Phone Number:</label>
+          <label htmlFor="phoneNumber">Số điện thoại:</label>
           <input
             type="tel"
             id="phoneNumber"
@@ -89,7 +89,7 @@ function Register() {
           )}
         </div>
         <div className="form-group">
-          <label htmlFor="password">Password:</label>
+          <label htmlFor="password">Mật khẩu:</label>
           <input
             type="password"
             id="password"
@@ -104,7 +104,7 @@ function Register() {
           )}
         </div>
         <div className="form-group">
-          <label>Role:</label>
+          <label>Vai trò:</label>
           <div className="radio-group">
             <label>
               <input
@@ -112,7 +112,7 @@ function Register() {
                 name="role"
                 value={0}
                 checked={role === 0}
-                onChange={(e) => setRole(e.target.value)}
+                onChange={(e) => setRole(Number(e.target.value))}
               />
               Admin
             </label>
@@ -122,19 +122,19 @@ function Register() {
                 name="role"
                 value={2}
                 checked={role === 2}
-                onChange={(e) => setRole(e.target.value)}
+                onChange={(e) => setRole(Number(e.target.value))}
               />
               User
             </label>
           </div>
         </div>
         <div className="form-group">
-          <input type="submit" value="Sign Up" />
+          <input type="submit" value="Đăng ký" />
         </div>
       </form>
       <div>
         <p>
-          Already have an account? <Link to="/login">Login</Link>
+          Bạn đã có tài khoản? <Link to="/login">Đăng nhập</Link>
         </p>
       </div>
     </div>

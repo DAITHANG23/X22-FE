@@ -8,7 +8,7 @@ import { BrowserRouter } from "react-router-dom";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import getTheme from "./theme/Theme";
 import { SnackbarProvider } from "notistack";
-
+import { AppContextProvider } from "./context/AppContext";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -26,7 +26,9 @@ root.render(
         <BrowserRouter>
           <ThemeProvider theme={theme}>
             <CssBaseline />
-            <App />
+            <AppContextProvider>
+              <App />
+            </AppContextProvider>
           </ThemeProvider>
         </BrowserRouter>
       </QueryClientProvider>
