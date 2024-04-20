@@ -15,8 +15,8 @@ export default {
     return axiosWrapper.post("/restaurant/reviews", formData);
   },
 
-  getReviewRestaurantDetail: (restaurantId) => {
-    console.log(restaurantId);
-    return axiosWrapper.get(`/restaurant/reviews/${restaurantId}`);
+  getReviewRestaurantDetail: async (restaurantId) => {
+    const res = await axiosWrapper.get(`/restaurant/reviews/${restaurantId}`);
+    return res?.data?.data;
   },
 };

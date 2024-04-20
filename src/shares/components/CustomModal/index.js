@@ -3,6 +3,8 @@ import { Box, Modal } from "@mui/material";
 import Backdrop from "@mui/material/Backdrop";
 import PropTypes from "prop-types";
 import { useSpring, animated } from "@react-spring/web";
+import getTheme from "../../../theme/Theme";
+const theme = getTheme();
 
 const style = {
   position: "absolute",
@@ -15,6 +17,12 @@ const style = {
   borderRadius: "8px",
   boxShadow: "0px 8px 24px 0px #2E34790A",
   p: 4,
+  [theme.breakpoints.down("lg")]: {
+    width: "60%",
+  },
+  [theme.breakpoints.down("md")]: {
+    width: "90%",
+  },
 };
 const CustomModal = ({ children, open, handleClose }) => {
   return (

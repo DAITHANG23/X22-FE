@@ -2,8 +2,11 @@ import { Avatar, Box, Button, Checkbox, Typography } from "@mui/material";
 import React, { useCallback, useMemo, useState } from "react";
 import Table from "../../../../shares/components/Table";
 import { formatCurrency } from "../../../../utils";
+import { useStyles } from "./Restaurant.styles";
+import clsx from "clsx";
 
 const DishesListOrder = ({ data, setNextStep, setOrderDishesData }) => {
+  const classes = useStyles();
   const [selectedData, setSelectedData] = useState([]);
 
   const onSelectedRowChange = useCallback(
@@ -71,7 +74,11 @@ const DishesListOrder = ({ data, setNextStep, setOrderDishesData }) => {
         cell: ({ row }) => {
           const { id, name, images } = row.original;
           return (
-            <Box key={id} sx={{ display: "flex", gap: 30 }}>
+            <div
+              key={id}
+              sx={{ display: "flex", gap: 30 }}
+              className={classes.nameDishesContainer}
+            >
               <Avatar
                 src={images}
                 sx={{
@@ -97,7 +104,7 @@ const DishesListOrder = ({ data, setNextStep, setOrderDishesData }) => {
                   {name}
                 </Typography>
               </Box>
-            </Box>
+            </div>
           );
         },
       },
@@ -108,7 +115,11 @@ const DishesListOrder = ({ data, setNextStep, setOrderDishesData }) => {
         size: 150,
         cell: ({ row }) => {
           const { price } = row.original;
-          return <>{formatCurrency(price, "VND")}</>;
+          return (
+            <div className={classes.priceContainer}>
+              {formatCurrency(price, "VND")}
+            </div>
+          );
         },
       },
       {
@@ -140,22 +151,17 @@ const DishesListOrder = ({ data, setNextStep, setOrderDishesData }) => {
             setSelectedData(updatingCart);
           };
           return (
-            <Box key={id}>
+            <div key={id} className={classes.amountContainer}>
               <button
                 onClick={() => onDecreaseQuantity(id)}
                 disabled={
                   !isDisabledButton || selectedData[row.index]?.quantity === 1
                 }
-                style={{
-                  padding: "4px 8px",
-                  marginRight: "4px",
-                  backgroundColor: "#d02128",
-                  border: "none",
-                  borderRadius: "4px",
-                  color: "#fff",
-                  cursor: "pointer",
-                  opacity: !isDisabledButton ? 0.7 : 1,
-                }}
+                className={clsx({
+                  [classes.buttonAmount || ""]: true,
+                  [classes.buttonAmountDes || ""]: true,
+                  [classes.buttonAmountDisabled || ""]: isDisabledButton,
+                })}
               >
                 -
               </button>
@@ -167,20 +173,15 @@ const DishesListOrder = ({ data, setNextStep, setOrderDishesData }) => {
               <button
                 onClick={() => onIncreaseQuantity(id)}
                 disabled={!isDisabledButton}
-                style={{
-                  padding: "4px 8px",
-                  marginLeft: "4px",
-                  backgroundColor: "#d02128",
-                  border: "none",
-                  borderRadius: "4px",
-                  color: "#fff",
-                  cursor: "pointer",
-                  opacity: !isDisabledButton ? 0.7 : 1,
-                }}
+                className={clsx({
+                  [classes.buttonAmount || ""]: true,
+                  [classes.buttonAmountIns || ""]: true,
+                  [classes.buttonAmountDisabled || ""]: isDisabledButton,
+                })}
               >
                 +
               </button>
-            </Box>
+            </div>
           );
         },
       },
@@ -192,13 +193,17 @@ const DishesListOrder = ({ data, setNextStep, setOrderDishesData }) => {
           const totaPriceEachDish =
             selectedData[row.index]?.quantity * selectedData[row.index]?.price;
           return (
-            <Typography sx={{ fontSize: "14px" }}>
+            <Typography
+              sx={{ fontSize: "14px" }}
+              className={classes.totalDishes}
+            >
               {formatCurrency(totaPriceEachDish, "VND")}
             </Typography>
           );
         },
       },
     ];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedData]);
   return (
     <div>
@@ -211,20 +216,12 @@ const DishesListOrder = ({ data, setNextStep, setOrderDishesData }) => {
           data={data}
           onSelectedRowChange={onSelectedRowChange}
         />
-        <Box
-          sx={{
-            display: "flex",
-            gap: "6px",
-            position: "absolute",
-            bottom: "10px",
-            left: "10px",
-          }}
-        >
+        <div className={classes.totalPriceFinal}>
           <Typography sx={{ fontWeight: 600 }}>Tổng tiền:</Typography>
           <Typography sx={{ color: "#d02128", fontWeight: 600 }}>
             {formatCurrency(totalPrice, "VND")}
           </Typography>
-        </Box>
+        </div>
       </Box>
       <Box sx={{ marginTop: "32px", textAlign: "end" }}>
         <Button

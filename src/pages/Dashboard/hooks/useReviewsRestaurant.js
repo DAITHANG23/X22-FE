@@ -25,7 +25,7 @@ const useReviewsRestaurant = () => {
     },
 
     onError: (data) => {
-      enqueueSnackbar(data, {
+      enqueueSnackbar(`${data?.response?.data?.message}`, {
         variant: "error",
         anchorOrigin: {
           vertical: "top",

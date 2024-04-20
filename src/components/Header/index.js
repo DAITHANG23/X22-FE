@@ -31,12 +31,10 @@ import { PAGES_NAVBAR, SETTINGS_ACCOUNT } from "./constant";
 import { useAppContext } from "../../context/AppContext";
 
 const Header = () => {
-  const { isLogin } = useAppContext();
+  const { isLogin, logout, currentUser } = useAppContext();
   const [anchorElNav, setAnchorElNav] = useState();
 
   const [anchorElUser, setAnchorElUser] = useState();
-
-  const { logout } = useAppContext();
 
   const classes = useStyles();
 
@@ -207,12 +205,10 @@ const Header = () => {
                 <MenuItem onClick={() => handleCloseUserMenu("Profile")}>
                   <StyledBoxName>
                     <Typography className={classes.nameText}>
-                      {/* {userItem.name} {userItem.lastName} */}
-                      Dom Nguyen
+                      {currentUser?.name}
                     </Typography>
                     <Typography className={classes.emailText}>
-                      {/* {userItem.about?.mail} */}
-                      Dom.nguyen@gmail.com
+                      {currentUser?.email}
                     </Typography>
                   </StyledBoxName>
                 </MenuItem>

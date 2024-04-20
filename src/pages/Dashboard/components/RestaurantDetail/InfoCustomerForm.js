@@ -9,6 +9,7 @@ import TextNumberPhone from "../../../../shares/components/TextNumberPhone";
 import FormDateTimePicker from "../../../../shares/components/FormDateTimePicker";
 import { REGEX_CHARACTER_VALIDATE_FOR_NAME } from "../../constant";
 import useOrderRestaurant from "../../hooks/useOrderRestaurant";
+import { useAppContext } from "../../../../context/AppContext";
 
 const InfoCustomerForm = ({
   disable,
@@ -18,10 +19,14 @@ const InfoCustomerForm = ({
   handleClose,
 }) => {
   const classes = useStyles();
+  const { currentUser } = useAppContext();
 
   const { onUpdateOrderRestaurant } = useOrderRestaurant();
 
-  let initialValues = {};
+  let initialValues = {
+    name: currentUser?.name || "",
+    phoneNumber: currentUser?.phoneNumber || "",
+  };
 
   const validationSchema = useMemo(() => {
     return Yup.object({
@@ -73,7 +78,7 @@ const InfoCustomerForm = ({
       validationSchema={validationSchema}
       validate={validate}
     >
-      {({ isValid, values }) => {
+      {({ isValid }) => {
         return (
           <>
             <Box sx={{ paddingBottom: "8px", textAlign: "center" }}>
