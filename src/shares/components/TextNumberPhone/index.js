@@ -20,9 +20,10 @@ const TextNumberPhone = ({
   const isError = phoneFormikProps.isError;
   const helperText = phoneFormikProps.errorMessage;
   const helpers = phoneFormikProps.helpers;
+  const initialValue = phoneFormikProps.meta.value;
   const classes = useStyles();
 
-  const [phone, setPhone] = useState("");
+  const [phone, setPhone] = useState(initialValue || "");
   const { setFieldValue } = useFormikContext();
   const handleChangeNumberPhone = (newPhone) => {
     setPhone(newPhone);

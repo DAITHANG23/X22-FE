@@ -1,4 +1,11 @@
-import { Box, Button, Typography, Rating, IconButton } from "@mui/material";
+import {
+  Box,
+  Button,
+  Typography,
+  Rating,
+  IconButton,
+  Grid,
+} from "@mui/material";
 import React, { useState } from "react";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import AsNavFor from "../../../../shares/components/Slider/SliderAsNavFor";
@@ -20,6 +27,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate, useParams } from "react-router-dom";
 import ReviewsRestaurantDetail from "./ReviewsRestaurantDetail";
 import CustomModal from "../../../../shares/components/CustomModal";
+import useAccount from "../../../../hooks/useAccount";
 
 const RESTAURANTS_DISHES_LIST_DATA = [
   {
@@ -69,6 +77,7 @@ const RestaurantDetail = () => {
   };
   const handleClose = () => {
     setOpen(false);
+    setNextStep(false);
   };
   const { id: idRestaurant } = useParams();
 

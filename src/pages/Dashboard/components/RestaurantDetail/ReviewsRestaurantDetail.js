@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import * as Yup from "yup";
 import CreateIcon from "@mui/icons-material/Create";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useStyles } from "./Restaurant.styles";
 import CustomModal from "../../../../shares/components/CustomModal";
 import StarIcon from "@mui/icons-material/Star";
@@ -19,6 +19,9 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Form, Formik } from "formik";
 import useReviewsRestaurant from "../../hooks/useReviewsRestaurant";
 import useGetReviewsRestaurantDetail from "../../hooks/useGetReviewsRestaurantDetail";
+import { useAppContext } from "../../../../context/AppContext";
+import LockOpenIcon from "@mui/icons-material/LockOpen";
+import { Link } from "react-router-dom";
 
 const labels = {
   0.5: "Useless",
@@ -39,18 +42,23 @@ function getLabelText(value) {
 
 const ReviewsRestaurantDetail = ({ idRestaurant }) => {
   const classes = useStyles();
+
   const [value, setValue] = useState(0);
+
   const [hover, setHover] = useState(-1);
+
   const [open, setOpen] = useState(false);
 
+  const { isLogin, currentUser } = useAppContext();
+
   const { mutate: postReviewRestaurant, isSuccess } = useReviewsRestaurant();
+
   const { reviewsRestaurantDetailData } =
     useGetReviewsRestaurantDetail(idRestaurant);
+
   const handleClose = () => {
     setOpen(false);
   };
-
-  console.log("reviewsRestaurantDetailData:", reviewsRestaurantDetailData);
 
   const initialValues = {};
 
@@ -67,16 +75,18 @@ const ReviewsRestaurantDetail = ({ idRestaurant }) => {
     });
   }, []);
 
-  if (isSuccess) {
-    handleClose();
-    setValue(0);
-  }
+  useEffect(() => {
+    if (isSuccess) {
+      handleClose();
+      setValue(0);
+    }
+  }, [isSuccess]);
 
   const handleSubmit = (formData) => {
     const postOfDay = new Date();
     const params = {
       ...formData,
-      userId: "65f86c38fc13ae6f31510898",
+      userId: currentUser?._id,
       restaurantId: idRestaurant,
       createdAt: postOfDay,
     };
@@ -103,134 +113,168 @@ const ReviewsRestaurantDetail = ({ idRestaurant }) => {
           initialValues={initialValues}
           validationSchema={validationSchema}
         >
-          {({ setFieldValue, values, errors }) => {
-            console.log("values:", values);
+          {({ setFieldValue, errors, isValid }) => {
             return (
-              <Form>
-                <Box>
-                  <Typography sx={{ fontSize: "18px", fontWeight: 700 }}>
-                    Đánh giá nhà hàng
-                  </Typography>
-                </Box>
+              <>
+                {isLogin ? (
+                  <Form>
+                    <Box>
+                      <Typography sx={{ fontSize: "18px", fontWeight: 700 }}>
+                        Đánh giá nhà hàng
+                      </Typography>
+                    </Box>
 
-                <Box
-                  sx={{
-                    display: "flex",
-                    gap: "12px",
-                    paddingTop: "32px",
-                  }}
-                >
-                  <Typography sx={{ fontSize: "14px", fontWeight: 400 }}>
-                    Điểm đánh giá của bạn về nhà hàng:
-                  </Typography>
-                  <Box
-                    sx={{
-                      width: 200,
-                      display: "flex",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Rating
-                      name="ratings"
-                      value={value}
-                      precision={0.5}
-                      getLabelText={getLabelText}
-                      onChange={(event, newValue) => {
-                        setValue(newValue);
-                        setFieldValue("ratings", newValue);
+                    <Box
+                      sx={{
+                        display: "flex",
+                        gap: "12px",
+                        paddingTop: "32px",
                       }}
-                      onChangeActive={(event, newHover) => {
-                        setHover(newHover);
-                      }}
-                      emptyIcon={
-                        <StarIcon
-                          style={{ opacity: 0.55 }}
-                          fontSize="inherit"
+                    >
+                      <Typography sx={{ fontSize: "14px", fontWeight: 400 }}>
+                        Điểm đánh giá của bạn về nhà hàng:
+                      </Typography>
+                      <Box
+                        sx={{
+                          width: 200,
+                          display: "flex",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Rating
+                          name="ratings"
+                          value={value}
+                          precision={0.5}
+                          getLabelText={getLabelText}
+                          onChange={(event, newValue) => {
+                            setValue(newValue);
+                            setFieldValue("ratings", newValue);
+                          }}
+                          onChangeActive={(event, newHover) => {
+                            setHover(newHover);
+                          }}
+                          emptyIcon={
+                            <StarIcon
+                              style={{ opacity: 0.55 }}
+                              fontSize="inherit"
+                            />
+                          }
                         />
-                      }
+
+                        {value !== null && (
+                          <Box sx={{ ml: 2 }}>
+                            {labels[hover !== -1 ? hover : value]}
+                          </Box>
+                        )}
+                      </Box>
+                    </Box>
+                    <Box>
+                      <FormHelperText error={errors?.ratings}>
+                        {errors?.ratings}
+                      </FormHelperText>
+                    </Box>
+                    <TextField
+                      label={"Đánh giá"}
+                      name="comment"
+                      id="outlined-multiline-static"
+                      fullWidth
+                      multiline
+                      rows={3}
+                      error={errors?.comment}
+                      sx={{
+                        "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                          {
+                            borderColor: "rgb(25, 118, 210)",
+                          },
+                        "& .MuiInputLabel-root.Mui-focused": {
+                          color: "rgb(25, 118, 210)",
+                        },
+                        marginTop: "32px",
+                      }}
+                      onChange={(e) => {
+                        const { value } = e.target;
+                        setFieldValue("comment", value);
+                      }}
+                      helperText={errors?.comment}
                     />
 
-                    {value !== null && (
-                      <Box sx={{ ml: 2 }}>
-                        {labels[hover !== -1 ? hover : value]}
-                      </Box>
-                    )}
-                  </Box>
-                </Box>
-                <Box>
-                  {" "}
-                  <FormHelperText error={errors?.ratings}>
-                    {errors?.ratings}
-                  </FormHelperText>
-                </Box>
-                <TextField
-                  label={"Đánh giá"}
-                  name="comment"
-                  id="outlined-multiline-static"
-                  fullWidth
-                  multiline
-                  rows={3}
-                  error={errors?.comment}
-                  sx={{
-                    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                      {
-                        borderColor: "rgb(25, 118, 210)",
-                      },
-                    "& .MuiInputLabel-root.Mui-focused": {
-                      color: "rgb(25, 118, 210)",
-                    },
-                    marginTop: "32px",
-                  }}
-                  onChange={(e) => {
-                    const { value } = e.target;
-                    setFieldValue("comment", value);
-                  }}
-                  helperText={errors?.comment}
-                />
+                    <Box sx={{ marginTop: "16px", textAlign: "end" }}>
+                      <Button
+                        sx={{
+                          textTransform: "none",
+                          borderRadius: "8px",
+                          border: "1px solid #888B94",
+                          color: "#16171C",
+                          fontWeight: 700,
+                          fontSize: "14px",
+                          padding: "5px 12px",
+                          "&:hover": {
+                            border: "1px solid #16171C",
+                            backgroundColor: "#DCDEE6",
+                          },
 
-                <Box sx={{ marginTop: "16px", textAlign: "end" }}>
-                  <Button
+                          marginRight: "16px",
+                        }}
+                        onClick={handleClose}
+                      >
+                        Hủy
+                      </Button>
+                      <Button
+                        sx={{
+                          textTransform: "none",
+                          borderRadius: "8px",
+                          border: "none",
+                          color: "#FFF",
+                          backgroundColor: !isValid ? "#CED0D6" : "#d02128",
+                          fontWeight: 700,
+                          fontSize: "14px",
+                          padding: "5px 12px",
+                          opacity: 0.8,
+                          "&:hover": {
+                            opacity: 1,
+                            backgroundColor: "#d02128",
+                          },
+                        }}
+                        type="submit"
+                        disabled={!isValid}
+                      >
+                        Đăng
+                      </Button>
+                    </Box>
+                  </Form>
+                ) : (
+                  <Box
                     sx={{
-                      textTransform: "none",
-                      borderRadius: "8px",
-                      border: "1px solid #888B94",
-                      color: "#16171C",
-                      fontWeight: 700,
-                      fontSize: "14px",
-                      padding: "5px 12px",
-                      "&:hover": {
-                        border: "1px solid #16171C",
+                      height: "336px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      flexDirection: "column",
+                      gap: "12px",
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        borderRadius: "50%",
+                        border: "none",
                         backgroundColor: "#DCDEE6",
-                      },
+                        width: "72px",
+                        height: "72px",
+                        textAlign: "center",
+                        paddingTop: "23px",
+                        fontSize: "20px",
+                      }}
+                    >
+                      <LockOpenIcon sx={{ width: "30px", height: "30px" }} />
+                    </Box>
 
-                      marginRight: "16px",
-                    }}
-                    onClick={handleClose}
-                  >
-                    Hủy
-                  </Button>
-                  <Button
-                    sx={{
-                      textTransform: "none",
-                      borderRadius: "8px",
-                      border: "none",
-                      color: "#FFF",
-                      backgroundColor: "#d02128",
-                      fontWeight: 700,
-                      fontSize: "14px",
-                      padding: "5px 12px",
-                      opacity: 0.8,
-                      "&:hover": {
-                        opacity: 1,
-                        backgroundColor: "#d02128",
-                      },
-                    }}
-                    type="submit"
-                  >
-                    Đăng
-                  </Button>
-                </Box>
-              </Form>
+                    <Typography>
+                      Bạn vui lòng <Link to={"/login"}>đăng nhập</Link> để đánh
+                      giá
+                    </Typography>
+                  </Box>
+                )}
+              </>
             );
           }}
         </Formik>
@@ -319,269 +363,50 @@ const ReviewsRestaurantDetail = ({ idRestaurant }) => {
       </Stack>
 
       <Box>
-        <Box sx={{ display: "flex", padding: "32px", marginBottom: "32px" }}>
-          <Box
-            sx={{
-              display: "flex",
-              width: "240px",
-              textAlign: "center",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: "16px",
-            }}
-          >
-            <Avatar
-              src={"/images/avatar.jpg"}
-              sx={{ width: "64px", height: "64px" }}
-            />
-            <Box>
-              <Typography
+        {reviewsRestaurantDetailData?.map((item) => (
+          <>
+            <Box sx={{ display: "flex", padding: "32px", marginBottom: "8px" }}>
+              <Box
                 sx={{
-                  color: "#16171C",
-                  fontSize: "14px",
-                  fontWeight: 600,
-                  paddingBottom: "5px",
+                  display: "flex",
+                  width: "240px",
+                  textAlign: "center",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: "16px",
                 }}
               >
-                Jayvion Simon
-              </Typography>
-              <Typography
-                sx={{ color: "#888B94", fontSize: "12px", fontWeight: 400 }}
-              >
-                12 Apr 2024
-              </Typography>
+                <Avatar
+                  src={"/images/avatar.jpg"}
+                  sx={{ width: "64px", height: "64px" }}
+                />
+                <Box>
+                  <Typography
+                    sx={{
+                      color: "#16171C",
+                      fontSize: "14px",
+                      fontWeight: 600,
+                      paddingBottom: "5px",
+                    }}
+                  >
+                    {item.user.name}
+                  </Typography>
+                  <Typography
+                    sx={{ color: "#888B94", fontSize: "12px", fontWeight: 400 }}
+                  >
+                    {item?.createdAt}
+                  </Typography>
+                </Box>
+              </Box>
+
+              <Box>
+                <Rating defaultValue={item?.ratings} readOnly />
+                <Typography>{item?.comment}</Typography>
+              </Box>
             </Box>
-          </Box>
-
-          <Box>
-            <Rating defaultValue={4.5} readOnly />
-            <Typography>
-              The sun slowly set over the horizon, painting the sky in vibrant
-              hues of orange and pink.
-            </Typography>
-          </Box>
-        </Box>
-
-        <Box sx={{ display: "flex", padding: "32px", marginBottom: "32px" }}>
-          <Box
-            sx={{
-              display: "flex",
-              width: "240px",
-              textAlign: "center",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: "16px",
-            }}
-          >
-            <Avatar
-              src={"/images/avatar.jpg"}
-              sx={{ width: "64px", height: "64px" }}
-            />
-            <Box>
-              <Typography
-                sx={{
-                  color: "#16171C",
-                  fontSize: "14px",
-                  fontWeight: 600,
-                  paddingBottom: "5px",
-                }}
-              >
-                Jayvion Simon
-              </Typography>
-              <Typography
-                sx={{ color: "#888B94", fontSize: "12px", fontWeight: 400 }}
-              >
-                12 Apr 2024
-              </Typography>
-            </Box>
-          </Box>
-
-          <Box>
-            <Rating defaultValue={4.5} readOnly />
-            <Typography>
-              The sun slowly set over the horizon, painting the sky in vibrant
-              hues of orange and pink.
-            </Typography>
-          </Box>
-        </Box>
-
-        <Box sx={{ display: "flex", padding: "32px", marginBottom: "32px" }}>
-          <Box
-            sx={{
-              display: "flex",
-              width: "240px",
-              textAlign: "center",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: "16px",
-            }}
-          >
-            <Avatar
-              src={"/images/avatar.jpg"}
-              sx={{ width: "64px", height: "64px" }}
-            />
-            <Box>
-              <Typography
-                sx={{
-                  color: "#16171C",
-                  fontSize: "14px",
-                  fontWeight: 600,
-                  paddingBottom: "5px",
-                }}
-              >
-                Jayvion Simon
-              </Typography>
-              <Typography
-                sx={{ color: "#888B94", fontSize: "12px", fontWeight: 400 }}
-              >
-                12 Apr 2024
-              </Typography>
-            </Box>
-          </Box>
-
-          <Box>
-            <Rating defaultValue={4.5} readOnly />
-            <Typography>
-              The sun slowly set over the horizon, painting the sky in vibrant
-              hues of orange and pink.
-            </Typography>
-          </Box>
-        </Box>
-
-        <Box sx={{ display: "flex", padding: "32px", marginBottom: "32px" }}>
-          <Box
-            sx={{
-              display: "flex",
-              width: "240px",
-              textAlign: "center",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: "16px",
-            }}
-          >
-            <Avatar
-              src={"/images/avatar.jpg"}
-              sx={{ width: "64px", height: "64px" }}
-            />
-            <Box>
-              <Typography
-                sx={{
-                  color: "#16171C",
-                  fontSize: "14px",
-                  fontWeight: 600,
-                  paddingBottom: "5px",
-                }}
-              >
-                Jayvion Simon
-              </Typography>
-              <Typography
-                sx={{ color: "#888B94", fontSize: "12px", fontWeight: 400 }}
-              >
-                12 Apr 2024
-              </Typography>
-            </Box>
-          </Box>
-
-          <Box>
-            <Rating defaultValue={4.5} readOnly />
-            <Typography>
-              The sun slowly set over the horizon, painting the sky in vibrant
-              hues of orange and pink.
-            </Typography>
-          </Box>
-        </Box>
-
-        <Box sx={{ display: "flex", padding: "32px", marginBottom: "32px" }}>
-          <Box
-            sx={{
-              display: "flex",
-              width: "240px",
-              textAlign: "center",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: "16px",
-            }}
-          >
-            <Avatar
-              src={"/images/avatar.jpg"}
-              sx={{ width: "64px", height: "64px" }}
-            />
-            <Box>
-              <Typography
-                sx={{
-                  color: "#16171C",
-                  fontSize: "14px",
-                  fontWeight: 600,
-                  paddingBottom: "5px",
-                }}
-              >
-                Jayvion Simon
-              </Typography>
-              <Typography
-                sx={{ color: "#888B94", fontSize: "12px", fontWeight: 400 }}
-              >
-                12 Apr 2024
-              </Typography>
-            </Box>
-          </Box>
-
-          <Box>
-            <Rating defaultValue={4.5} readOnly />
-            <Typography>
-              The sun slowly set over the horizon, painting the sky in vibrant
-              hues of orange and pink.
-            </Typography>
-          </Box>
-        </Box>
-
-        <Box sx={{ display: "flex", padding: "32px", marginBottom: "32px" }}>
-          <Box
-            sx={{
-              display: "flex",
-              width: "240px",
-              textAlign: "center",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: "16px",
-            }}
-          >
-            <Avatar
-              src={"/images/avatar.jpg"}
-              sx={{ width: "64px", height: "64px" }}
-            />
-            <Box>
-              <Typography
-                sx={{
-                  color: "#16171C",
-                  fontSize: "14px",
-                  fontWeight: 600,
-                  paddingBottom: "5px",
-                }}
-              >
-                Jayvion Simon
-              </Typography>
-              <Typography
-                sx={{ color: "#888B94", fontSize: "12px", fontWeight: 400 }}
-              >
-                12 Apr 2024
-              </Typography>
-            </Box>
-          </Box>
-
-          <Box>
-            <Rating defaultValue={4.5} readOnly />
-            <Typography>
-              The sun slowly set over the horizon, painting the sky in vibrant
-              hues of orange and pink.
-            </Typography>
-          </Box>
-        </Box>
+          </>
+        ))}
       </Box>
     </Box>
   );
