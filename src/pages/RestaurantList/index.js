@@ -9,6 +9,7 @@ import FilterRestaurant from "./components/filterRestaurant";
 import DialogRateRestaurant from "./components/dialogRateRestaurant";
 import Button from "@mui/material/Button";
 import { Box, CircularProgress } from "@mui/material";
+import apiService from "../../api";
 
 const RestaurantList = () => {
   const [restaurants, setRestaurants] = useState([]);
@@ -17,6 +18,7 @@ const RestaurantList = () => {
   const [loading, setLoading] = useState(false);
   const [noResults, setNoResults] = useState(false);
   const [open, setOpen] = React.useState(false);
+  const [openRestaurantRateForm, setOpenRestaurantRateForm] = useState("");
 
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
@@ -30,9 +32,10 @@ const RestaurantList = () => {
   const fetchRestaurants = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(
-        `http://localhost:3002/restaurant?page=${page}&limit=${limit}`
-      );
+      const response = await apiService.restaurant.getListRestaurantData({
+        page,
+        limit,
+      });
       setRestaurants(response.data.data);
       setTotalPages(response.data.meta.totalPages);
       setTotalRecords(response.data.meta.totalRecords);
@@ -65,9 +68,9 @@ const RestaurantList = () => {
   const fetchSearchResults = async (query) => {
     try {
       setLoading(true);
-      const response = await axios.get(
-        `http://localhost:3002/restaurant?name=${query}&address=${query}`
-      );
+      console.log(query);
+      const response = await apiService.restaurant.queryRestaurant({ query });
+      console.log(response);
       if (response.data.data.length === 0) {
         setNoResults(true);
       } else {
@@ -90,10 +93,6 @@ const RestaurantList = () => {
     if (page > 1) {
       setPage(page - 1);
     }
-  };
-
-  const handleClickOpenDiaglog = () => {
-    setOpen(true);
   };
 
   return (
@@ -121,7 +120,7 @@ const RestaurantList = () => {
                 </div>
               )}
               {restaurants.map((restaurant, index) => (
-                <li key={restaurant.id}>
+                <li key={restaurant._id}>
                   <img
                     className="image-restaurant"
                     src={restaurant.images[0]}
@@ -159,15 +158,21 @@ const RestaurantList = () => {
                       <React.Fragment>
                         <Button
                           variant="outlined"
-                          onClick={handleClickOpenDiaglog}
+                          onClick={() =>
+                            setOpenRestaurantRateForm(restaurant._id)
+                          }
                         >
                           Đánh giá nhà hàng
                         </Button>
 
                         <DialogRateRestaurant
-                          setOpen={setOpen}
-                          open={open}
-                          restaurantId={restaurant.id}
+                          setOpen={(isOpen) =>
+                            isOpen
+                              ? setOpenRestaurantRateForm(restaurant._id)
+                              : setOpenRestaurantRateForm("")
+                          }
+                          open={openRestaurantRateForm === restaurant._id}
+                          restaurantId={restaurant._id}
                         ></DialogRateRestaurant>
                       </React.Fragment>
                     </div>

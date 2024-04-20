@@ -2,8 +2,12 @@ import axiosWrapper from "../utils/axios";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
-  getListRestaurantData: () => {
-    return axiosWrapper.get("/restaurant");
+  getListRestaurantData: ({ page, limit }) => {
+    return axiosWrapper.get(`/restaurant?page=${page}&limit=${limit}`);
+  },
+
+  queryRestaurant: ({ query }) => {
+    return axiosWrapper.get(`/restaurant?name=${query}&address=${query}`);
   },
 
   getRestaurantDetail: ({ restaurantId }) => {
