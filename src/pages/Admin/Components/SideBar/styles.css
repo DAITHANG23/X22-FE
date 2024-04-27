@@ -1,0 +1,18 @@
+.SideBarContainer {
+  border-right: 1px solid #acacac;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  /* position: fixed; */
+  width: 200px;
+  /* top: 100px;
+  left: 0;
+  z-index: -1; */
+  /* bottom: 70px; */
+  background-color: #f8f67a;
+  display: flex;
+  flex-direction: column;
+}
+.SideBarContainer a {
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+}

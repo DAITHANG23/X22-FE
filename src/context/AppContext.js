@@ -10,17 +10,17 @@ const AppContextProvider = ({ children }) => {
   const [token, setToken] = useState("");
   const [role, setRole] = useState(2);
   const [currentUser, setCurrentUser] = useState(null);
+  const [idRestaurant, setIdRestaurant] = useState(null);
 
   const login = async (token, role) => {
-    setRole(role);
     localStorage.setItem("token", token);
     axiosWrapper.defaults.headers["Authorization"] = `Bearer ${token}`;
-
     const dataResponse = await accountApi.getAccountCustomer();
-
     setCurrentUser(dataResponse);
+    setRole(dataResponse.role);
     setIsLogin(true);
     setToken(token);
+    setIdRestaurant(dataResponse?.idRestaurant);
   };
 
   const logout = () => {
@@ -47,6 +47,7 @@ const AppContextProvider = ({ children }) => {
         role,
         currentUser,
         setCurrentUser,
+        idRestaurant,
       }}
     >
       {children}

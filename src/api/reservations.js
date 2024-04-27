@@ -9,6 +9,13 @@ export default {
       },
     });
   },
+  getEmployeeReservations: (token) => {
+    return axiosWrapper.get("reservations/employee", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  },
   cancelReservation: (id) => {
     return axiosWrapper.post("reservations/cancel", {
       idReservation: id,

@@ -10,7 +10,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const { login, isLogin } = useAppContext();
+  const { login, isLogin, role } = useAppContext();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const [isLoading, setIsLoading] = useState(false);
@@ -34,7 +34,8 @@ const Login = () => {
         });
 
         setTimeout(() => {
-          navigate("/");
+          if (res.data.role === 0 || res.data.role === 1) navigate("/admin");
+          else navigate("/");
         }, 1000);
       })
       .catch((error) => {
@@ -49,7 +50,8 @@ const Login = () => {
   useEffect(() => {
     if (localStorage.getItem("token") && isLogin) {
       setTimeout(() => {
-        navigate("/");
+        if (role === 0 || role === 1) navigate("/admin");
+        else navigate("/");
       }, 1000);
     }
   }, [isLogin, navigate]);

@@ -35,6 +35,7 @@ function Register() {
       password,
       role,
     };
+    console.log(formData);
     mutate(formData);
   };
 
