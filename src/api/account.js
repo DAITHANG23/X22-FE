@@ -6,4 +6,8 @@ export default {
     const res = await axiosWrapper.get("/user/profile");
     return res?.data;
   },
+  getEmployee: async () => {
+    const res = await axiosWrapper.get("/user/employee");
+    return res?.data;
+  },
 };

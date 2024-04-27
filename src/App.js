@@ -14,7 +14,6 @@ import { useAppContext } from "./context/AppContext";
 
 function App() {
   const { role } = useAppContext();
-  console.log(role);
   return (
     <div className="container">
       <Header />
@@ -33,7 +32,9 @@ function App() {
 
         <Route path="/reservations" element={<Reservations />} />
 
-        {role !== 2 && <Route path="/Admin" element={<Admin />} />}
+        {(role === 1 || role === 0) && (
+          <Route path="/admin/*" element={<Admin />} />
+        )}
 
         <Route path="/*" element={<ErrorPage />} />
       </Routes>
