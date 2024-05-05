@@ -83,7 +83,10 @@ const ReviewsRestaurantDetail = ({ idRestaurant }) => {
   }, [isSuccess]);
 
   const handleSubmit = (formData) => {
-    const postOfDay = new Date();
+    const postOfDay = new Date().toLocaleString("en-US", {
+      timeZone: "Asia/Ho_Chi_Minh",
+    });
+
     const params = {
       ...formData,
       userId: currentUser?._id,

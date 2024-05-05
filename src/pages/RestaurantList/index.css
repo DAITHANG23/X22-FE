@@ -5,7 +5,8 @@
 
 .restaurant-list-container {
   padding: 30px;
-  background-color: #f2f2f2;
+  padding-left: 0;
+  background-color: #fff;
 }
 
 .restaurant-list-header {
@@ -17,6 +18,7 @@
   display: flex;
   margin: 20px 0;
   gap: 1%;
+  margin-top: 70px;
 }
 
 .restaurant-card-items > h1 {
@@ -25,7 +27,7 @@
 .filter-container {
   width: 29%;
   padding: 0 30px;
-  background-color: #fff;
+  background-color: #ebedf5;
 }
 
 .restaurant-card {
@@ -43,8 +45,11 @@ li {
 }
 
 .image-restaurant {
-  max-height: 180px;
+  height: 200px;
   min-width: 295px;
+
+  padding: 8px;
+  border-radius: 20px;
 }
 
 .restaurant-detail {
@@ -80,9 +85,12 @@ li {
 }
 
 .menu {
-  text-decoration: underline;
   gap: 5px;
-  cursor: pointer;
+}
+
+.menu > span {
+  display: flex;
+  align-items: center;
 }
 
 .restaurant-name {

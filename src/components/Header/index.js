@@ -67,6 +67,8 @@ const Header = () => {
   const onChoosePageLink = (page) => {
     if (page === "trang chủ") {
       navigate(`/dashboard`);
+    } else if (page === "top nhà hàng") {
+      navigate(`/toprestaurants`);
     } else {
       navigate(`/${page}`);
     }

@@ -1,3 +1,12 @@
+.checkbox-filter,
+.actions {
+  margin-top: 8px;
+}
+
+.MuiFormControl-root {
+  margin-top: 10px !important;
+}
+
 .filter {
   background-color: #fff;
 }
@@ -12,4 +21,20 @@
 
 .search-field {
   width: 100%;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.actions > button {
+  padding: 5px 10px;
+}
+
+.checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }

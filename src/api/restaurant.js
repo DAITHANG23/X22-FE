@@ -2,8 +2,20 @@ import axiosWrapper from "../utils/axios";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
-  getListRestaurantData: () => {
-    return axiosWrapper.get("/restaurant");
+  getListRestaurantData: ({ page, limit }) => {
+    return axiosWrapper.get(`/restaurant?page=${page}&limit=${limit}`);
+  },
+
+  queryRestaurant: ({ name, address, type, minPrice, maxPrice }) => {
+    const queryParams = new URLSearchParams({
+      name,
+      address,
+      type,
+      minPrice,
+      maxPrice,
+    }).toString();
+
+    return axiosWrapper.get(`/restaurant?${queryParams}`);
   },
 
   getRestaurantDetail: async ({ restaurantId }) => {
@@ -18,5 +30,19 @@ export default {
   getReviewRestaurantDetail: async (restaurantId) => {
     const res = await axiosWrapper.get(`/restaurant/reviews/${restaurantId}`);
     return res?.data?.data;
+  },
+
+  getTopRestaurants: async () => {
+    const res = await axiosWrapper.get("/restaurant/top");
+    return res?.data?.data;
+  },
+
+  createRestaurant: (formData) => {
+    console.log(formData);
+    return axiosWrapper.post("/restaurant/create", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
   },
 };

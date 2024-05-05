@@ -1,4 +1,4 @@
-import { Button, IconButton, Rating } from "@mui/material";
+import { Button, Dialog, IconButton, Rating } from "@mui/material";
 import DialogActions from "@mui/material/DialogActions";
 import {
   BoxComment,
@@ -25,12 +25,14 @@ const DialogRateRestaurant = ({ setOpen, open, restaurantId, userId }) => {
         "http://localhost:3002/restaurant/reviews",
         {
           userId: "65f86c38fc13ae6f31510898",
-          restaurantId: "65ffc5c28644f84373b05e0a",
+          restaurantId: restaurantId,
           ratings: value,
           comment: comment,
         }
       );
+
       console.log("Response:", response.data);
+      setOpen(false);
       alert("Cảm ơn bạn đã đánh giá nhà hàng");
     } catch (error) {
       console.error("Error submitting rating:", error);
