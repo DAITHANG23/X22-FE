@@ -1,17 +1,28 @@
-import { styled, Box, Typography } from "@mui/material";
+import { styled, Box, Typography, Grid } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+
+const useStyles = makeStyles((theme) => ({
+  formMail: {
+    "& .MuiOutlinedInput-root": {
+      backgroundColor: theme.palette.common.white,
+    },
+  },
+}));
+
+export default useStyles;
 
 export const StyledBoxContainer = styled(Box)(() => ({
   marginTop: "300px",
   width: "100%",
 }));
 
-export const StyledBoxFooterFirst = styled(Box)(({ theme }) => ({
+export const StyledBoxFooterFirst = styled(Grid)(({ theme }) => ({
   backgroundColor: "#2B2B39",
   color: theme.palette.background.paper,
   display: "flex",
-  //   justifyContent: "space-around",
-  gap: "230px",
-  padding: "50px 135px",
+  gap: "50px",
+  padding: "50px",
+  justifyContent: "space-around",
 }));
 
 export const StyledBoxContent = styled(Box)(() => ({

@@ -11,6 +11,7 @@ import RestaurantList from "./pages/RestaurantList";
 import Reservations from "./pages/Reservations";
 import Admin from "./pages/Admin";
 import { useAppContext } from "./context/AppContext";
+import TopRestaurants from "./pages/TopRestaurants";
 
 function App() {
   const { role } = useAppContext();
@@ -28,7 +29,7 @@ function App() {
 
         <Route path="/restaurantdetail/:id" element={<RestaurantDetail />} />
 
-        {/* <Route path="/restaurant-list" element={<RestaurantList />} /> */}
+        <Route path="/toprestaurants" element={<TopRestaurants />} />
 
         <Route path="/reservations" element={<Reservations />} />
 

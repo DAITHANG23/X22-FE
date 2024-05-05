@@ -84,7 +84,7 @@ const RestaurantDetail = () => {
   const navigate = useNavigate();
 
   const handleOnBack = () => {
-    const to = `/`;
+    const to = -1;
     navigate(to);
   };
 
