@@ -15,9 +15,9 @@ const Employee = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState("");
+  const [role, setRole] = useState(1);
   const [dataResponse, setDataResponse] = useState([]);
-  const { token } = useAppContext();
-  const role = 1;
+  const { token, refeshToken } = useAppContext();
   const onSuccess = () => {
     setEmail("");
     setName("");
@@ -43,7 +43,10 @@ const Employee = () => {
   };
 
   const handleDelete = async (id) => {
-    console.log(id);
+    localStorage.setItem("token", token);
+    axiosWrapper.defaults.headers["Authorization"] = `Bearer ${token}`;
+    await accountApi.deleteEmployee(id);
+    await getEmployee();
   };
 
   useEffect(() => {
@@ -51,6 +54,7 @@ const Employee = () => {
   }, [error]);
   const getEmployee = async () => {
     localStorage.setItem("token", token);
+    refeshToken();
     axiosWrapper.defaults.headers["Authorization"] = `Bearer ${token}`;
     const tmp = await accountApi.getEmployee();
     console.log(tmp);
@@ -122,6 +126,33 @@ const Employee = () => {
               <p className="error-message">{errors.password}</p>
             )}
           </div>
+          <div className="form-group">
+            <label>Vai trò:</label>
+            <div className="radio-group" id="radioAdmin">
+              <label>
+                <input
+                  type="radio"
+                  name="role"
+                  id="roleAdmin"
+                  value={0}
+                  checked={role === 0}
+                  onChange={(e) => setRole(Number(e.target.value))}
+                />
+                <label htmlFor="roleAdmin">Quản lý</label>
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="role"
+                  id="roleEmpoyee"
+                  value={1}
+                  checked={role === 1}
+                  onChange={(e) => setRole(Number(e.target.value))}
+                />
+                <label htmlFor="roleEmpoyee">Nhân viên</label>
+              </label>
+            </div>
+          </div>
           <div className="form-group form-submit">
             <input type="submit" value="Đăng ký" />
           </div>
@@ -136,11 +167,13 @@ const Employee = () => {
             <p>Email: {item.email}</p>
             <p>Họ và tên: {item.name}</p>
             <p>Số điện thoại: {item.phoneNumber}</p>
-            <div className="Buttondetail">
-              <button onClick={() => handleDelete(item._id)}>
-                Xóa tài khoản
-              </button>
-            </div>
+            {item.role === 1 && (
+              <div className="Buttondetail">
+                <button onClick={() => handleDelete(item._id)}>
+                  Xóa tài khoản
+                </button>
+              </div>
+            )}
           </div>
         ))}
       </div>

@@ -1,0 +1,24 @@
+.ReviewContainer {
+  display: flex;
+  width: 100%;
+  height: 70vh;
+}
+.ReviewContainer .css-4rnakb {
+  padding: 0;
+  width: 100%;
+  margin: 0;
+}
+.ReviewContainer .css-2pny16 p {
+  font-size: 2rem;
+}
+.ReviewContainer .css-9cklu1 {
+  display: none;
+}
+.ReviewContainer .css-nxnglb-MuiStack-root {
+  display: block;
+  width: 100%;
+  border: none;
+}
+.ReviewContainer .css-w5dagv {
+  width: 100%;
+}

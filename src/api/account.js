@@ -10,4 +10,8 @@ export default {
     const res = await axiosWrapper.get("/user/employee");
     return res?.data;
   },
+  deleteEmployee: async (idEmployee) => {
+    const res = await axiosWrapper.get("/user/delete/" + idEmployee);
+    return res?.data;
+  },
 };
