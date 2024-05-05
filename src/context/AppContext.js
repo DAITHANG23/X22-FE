@@ -12,12 +12,12 @@ const AppContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [idRestaurant, setIdRestaurant] = useState(null);
 
-  const login = async (token, role) => {
+  const login = async (token) => {
     localStorage.setItem("token", token);
     axiosWrapper.defaults.headers["Authorization"] = `Bearer ${token}`;
     const dataResponse = await accountApi.getAccountCustomer();
     setCurrentUser(dataResponse);
-    setRole(dataResponse.role);
+    setRole(dataResponse?.role);
     setIsLogin(true);
     setToken(token);
     setIdRestaurant(dataResponse?.idRestaurant);
@@ -29,10 +29,12 @@ const AppContextProvider = ({ children }) => {
     localStorage.removeItem("token");
     setCurrentUser(null);
   };
-
-  useEffect(() => {
+  const refeshToken = async () => {
     const token = localStorage.getItem("token");
     if (token) login(token);
+  };
+  useEffect(() => {
+    refeshToken();
   }, []);
 
   return (
@@ -48,6 +50,7 @@ const AppContextProvider = ({ children }) => {
         currentUser,
         setCurrentUser,
         idRestaurant,
+        refeshToken,
       }}
     >
       {children}

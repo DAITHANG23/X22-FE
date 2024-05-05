@@ -12,19 +12,22 @@ import Reservation from "./Components/Reservation";
 import Review from "./Components/Review";
 //
 const Admin = () => {
-  const { role } = useAppContext();
+  const { role, idRestaurant } = useAppContext();
+  console.log(idRestaurant);
   return (
     <div className="AdminContainer">
       <SideBar />
       <Routes>
         <Route path="/" element={<MainAdmin />} />
-        <Route path="/Menu" element={<Menu />} />
-        <Route path="/Reservation" element={<Reservation />} />
-        <Route path="/Review" element={<Review />} />
+        {idRestaurant && <Route path="/Menu" element={<Menu />} />}
+        {idRestaurant && (
+          <Route path="/Reservation" element={<Reservation />} />
+        )}
+        {idRestaurant && <Route path="/Review" element={<Review />} />}
         {role === 0 && (
           <>
             <Route path="/restaurant" element={<RestaurantEdit />} />
-            <Route path="/employee" element={<Employee />} />
+            {idRestaurant && <Route path="/employee" element={<Employee />} />}
           </>
         )}
       </Routes>

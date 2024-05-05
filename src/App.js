@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
+import { useEffect } from "react";
 import "./App.css";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -13,7 +14,10 @@ import Admin from "./pages/Admin";
 import { useAppContext } from "./context/AppContext";
 
 function App() {
-  const { role } = useAppContext();
+  const { role, refeshToken } = useAppContext();
+  useEffect(() => {
+    refeshToken();
+  }, []);
   return (
     <div className="container">
       <Header />

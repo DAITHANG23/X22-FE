@@ -1,10 +1,13 @@
 import React from "react";
 import "./styles.css";
+import { useAppContext } from "../../../../context/AppContext";
+import ReviewsRestaurantDetail from "../../../Dashboard/components/RestaurantDetail/ReviewsRestaurantDetail";
 
 const Review = () => {
+  const { idRestaurant } = useAppContext();
   return (
     <div className="ReviewContainer">
-      <h1>Review</h1>
+      <ReviewsRestaurantDetail idRestaurant={idRestaurant} />
     </div>
   );
 };
