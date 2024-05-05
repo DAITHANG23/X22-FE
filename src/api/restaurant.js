@@ -19,4 +19,9 @@ export default {
     const res = await axiosWrapper.get(`/restaurant/reviews/${restaurantId}`);
     return res?.data?.data;
   },
+
+  getTopRestaurants: async () => {
+    const res = await axiosWrapper.get("/restaurant/top");
+    return res?.data?.data;
+  },
 };

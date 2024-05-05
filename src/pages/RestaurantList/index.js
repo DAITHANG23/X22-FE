@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./index.css";
 import axios from "axios";
-import HomeIcon from "@mui/icons-material/Home";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
-import MenuBookIcon from "@mui/icons-material/MenuBook";
-import CallMadeIcon from "@mui/icons-material/CallMade";
 import FilterRestaurant from "./components/filterRestaurant";
-import DialogRateRestaurant from "./components/dialogRateRestaurant";
-import Button from "@mui/material/Button";
-import { Box, CircularProgress } from "@mui/material";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import { Box, CircularProgress, Rating, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 const RestaurantList = () => {
   const [restaurants, setRestaurants] = useState([]);
@@ -105,9 +102,6 @@ const RestaurantList = () => {
 
   return (
     <div className="restaurant-list-container">
-      <div className="restaurant-list-header flex">
-        <h1>Top Nhà Hàng Nổi Bật nhất</h1>
-      </div>
       <div className="restaurant-list">
         <FilterRestaurant
           searchTerm={searchTerm}
@@ -115,7 +109,12 @@ const RestaurantList = () => {
         />
         <div className="restaurant-card">
           <div className="restaurant-card-items">
-            <h1>Danh sách nhà hàng: {totalRecords} kết quả </h1>
+            <Typography
+              variant="h4"
+              sx={{ padding: "16px 0px", fontWeight: 700 }}
+            >
+              Danh sách nhà hàng: {totalRecords} kết quả{" "}
+            </Typography>
             <ul>
               {loading && (
                 <Box sx={{ display: "flex" }}>
@@ -128,6 +127,7 @@ const RestaurantList = () => {
                 </div>
               )}
               {restaurants.map((restaurant, index) => {
+                console.log("restaurant:", restaurant);
                 return (
                   <li key={restaurant._id}>
                     <img
@@ -149,47 +149,32 @@ const RestaurantList = () => {
                           {restaurant.name}
                         </h3>
                         <div style={{ gap: "5px" }} className="flex">
-                          Giờ hoạt động:
+                          <AccessTimeIcon />
                           <div>
-                            <span style={{ color: "green" }}>09:00 AM</span> -
-                            <span style={{ color: "red" }}>10:00 PM</span>
+                            <span style={{ color: "green" }}>
+                              {restaurant.timeStart}
+                            </span>{" "}
+                            -
+                            <span style={{ color: "red" }}>
+                              {restaurant.timeEnd}
+                            </span>
                           </div>
                         </div>
                       </div>
 
                       <div className="detail-content flex address">
-                        <HomeIcon></HomeIcon>
+                        <LocationOnIcon />
                         {restaurant.address}
                       </div>
                       <div className="detail-content flex phone-number">
-                        <LocalPhoneIcon></LocalPhoneIcon>{" "}
+                        <LocalPhoneIcon />
                         {restaurant.phoneNumber}
                       </div>
-
-                      <hr className="divider" />
-                      <div className="detail-content flex type-restaurant">
-                        <div>Kiểu Âu, Kiểu Á</div>
-                        <div className="menu flex">
-                          <MenuBookIcon></MenuBookIcon> Thực đơn
-                          <CallMadeIcon></CallMadeIcon>
-                        </div>
-
-                        {/* CLICK TO OPEN DIALOG */}
-                        <React.Fragment>
-                          <Button
-                            variant="outlined"
-                            onClick={handleClickOpenDiaglog}
-                          >
-                            Đánh giá nhà hàng
-                          </Button>
-
-                          <DialogRateRestaurant
-                            setOpen={setOpen}
-                            open={open}
-                            restaurantId={restaurant.id}
-                          ></DialogRateRestaurant>
-                        </React.Fragment>
-                      </div>
+                      <Rating
+                        defaultValue={restaurant.avgRate}
+                        readOnly
+                        sx={{ paddingTop: "16px" }}
+                      />
                     </div>
                   </li>
                 );
