@@ -85,9 +85,12 @@ li {
 }
 
 .menu {
-  text-decoration: underline;
   gap: 5px;
-  cursor: pointer;
+}
+
+.menu > span {
+  display: flex;
+  align-items: center;
 }
 
 .restaurant-name {
