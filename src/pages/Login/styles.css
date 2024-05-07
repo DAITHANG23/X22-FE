@@ -1,6 +1,7 @@
 .login-container {
   background-color: #fff;
-  margin: 110px auto 0 auto;
+
+  margin-top: 1500px;
   padding: 20px;
   border-radius: 5px;
   border: 1px solid #ccc;
@@ -164,6 +165,7 @@
 
 .error-message {
   color: red;
+  padding-top: 16px;
 }
 
 .login-container p {

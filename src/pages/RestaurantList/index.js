@@ -7,6 +7,7 @@ import FilterRestaurant from "./components/filterRestaurant";
 import { Box, CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import apiService from "../../api";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const RestaurantList = () => {
   const [restaurants, setRestaurants] = useState([]);
@@ -173,8 +174,14 @@ const RestaurantList = () => {
           <div className="restaurant-card-items">
             <h1>Danh sách nhà hàng: {totalRecords} kết quả </h1>
             {loading && (
-              <Box sx={{ display: "flex" }}>
-                <CircularProgress />
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: "500px",
+                  left: "50%",
+                }}
+              >
+                <ClipLoader color="#36d7b7" />
               </Box>
             )}
             {!noResults && (

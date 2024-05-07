@@ -1,24 +1,52 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import apiService from "../../api";
 import { useAppContext } from "../../context/AppContext";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useSnackbar } from "notistack";
 import "./styles.css";
+import { Form, Formik } from "formik";
+import FormTextField from "../../shares/components/CustomFormTextField";
+import {
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+} from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import * as Yup from "yup";
+import { REGEX_VALIDATE_EMAIL } from "../../components/Header/constant";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
   const { login, isLogin, role } = useAppContext();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = (event) => {
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
     event.preventDefault();
+  };
+
+  const initialValues = {};
+
+  const validationSchema = useMemo(() => {
+    return Yup.object({
+      email: Yup.string()
+        .trim()
+        .required("Vui lòng nhập thông tin này")
+        .matches(REGEX_VALIDATE_EMAIL, "Nhập email không đúng"),
+      password: Yup.string().trim().required("Vui lòng nhập thông tin này"),
+    });
+  }, []);
+
+  const handleSubmit = (formData) => {
     setIsLoading(true);
-    const formData = { email, password };
     apiService.login
       .login({ formData })
       .then((res) => {
@@ -40,7 +68,14 @@ const Login = () => {
       })
       .catch((error) => {
         console.log(error);
-        setErrorMessage("Sai gmail hoặc mật khẩu");
+        enqueueSnackbar("Vui lòng đăng nhập lại.", {
+          variant: "error",
+          anchorOrigin: {
+            vertical: "top",
+            horizontal: "center",
+          },
+          timer: 1000,
+        });
       })
       .finally(() => {
         setIsLoading(false);
@@ -54,56 +89,126 @@ const Login = () => {
         else navigate("/");
       }, 1000);
     }
-  }, [isLogin, navigate]);
+  }, [isLogin, navigate, role]);
 
   return (
-    <div className="login-container">
-      {!isLogin && (
-        <div>
-          <h2>Đăng nhập</h2>
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="email">Email:</label>
-              <input
-                type="email"
-                id="email"
+    <div style={{ marginTop: "200px" }}>
+      <Formik
+        onSubmit={handleSubmit}
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+      >
+        {({ isValid, setFieldValue }) => {
+          const handleChangePassword = (e) => {
+            const { value } = e.target;
+            setFieldValue("password", value);
+          };
+          return (
+            <Form
+              style={{
+                width: "480px",
+                backgroundColor: "#FFF",
+                boxShadow: "0px -4px 16px 0px #0000000D",
+                padding: "64px",
+                margin: "0 auto",
+              }}
+            >
+              <h2 style={{ paddingBottom: "40px" }}>Đăng nhập</h2>
+              <FormTextField
+                required
                 name="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
+                label={"Email"}
+                placeholder={"Nhập email"}
+                variant="outlined"
+                style={{
+                  width: "100%",
+                  margin: "32px 0px",
+                }}
               />
-            </div>
-            <div className="form-group">
-              <label htmlFor="password">Mật khẩu:</label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-            {errorMessage && <p className="error-message">{errorMessage}</p>}{" "}
-            {/* Conditionally render error message */}
-            <div className="form-group">
-              <input
-                type="submit"
-                value={isLoading ? "Đang đăng nhập..." : "Đăng nhập"}
-                disabled={isLoading}
-              />
-            </div>
-          </form>
-          <div>
-            <p>
-              Bạn chưa có tài khoản? <Link to="/register">Đăng ký</Link>
-            </p>
-          </div>
-        </div>
-      )}
-      {isLogin && (
-        <h2 style={{ color: "red", margin: "0 auto" }}>Bạn đã đăng nhập!</h2>
-      )}
+              <FormControl
+                sx={{
+                  width: "100%",
+                  "& .MuiInputBase-root > input": {
+                    padding: "12px 14px",
+                  },
+                  "& .MuiInputBase-root > fieldset": {
+                    borderRadius: "8px",
+                  },
+                }}
+                variant="outline"
+              >
+                <InputLabel
+                  shrink
+                  htmlFor="password"
+                  required
+                  sx={{
+                    position: "absolute",
+                    top: "-20px",
+                    fontSize: "18px",
+                    fontWeight: 600,
+                  }}
+                >
+                  Password
+                </InputLabel>
+                <OutlinedInput
+                  id="password"
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  onChange={handleChangePassword}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  placeholder="Nhập password"
+                />
+              </FormControl>
+
+              <div>
+                <LoadingButton
+                  loading={isLoading}
+                  variant="outlined"
+                  sx={{
+                    width: "100%",
+                    padding: "8px 16px",
+                    color: "#FFF",
+                    backgroundColor: !isValid ? "#CED0D6" : "#15B138",
+                    borderRadius: "8px",
+                    fontSize: "15px",
+                    textTransform: "none",
+                    marginTop: "32px",
+                    marginBottom: "32px",
+                    opacity: 0.8,
+                    fontWeight: 700,
+                    border: "none",
+                    "&:hover": {
+                      backgroundColor: "#15B138",
+                      opacity: 1,
+                      border: "none",
+                    },
+                  }}
+                  disabled={!isValid}
+                  type="submit"
+                >
+                  Đăng nhập
+                </LoadingButton>
+              </div>
+              <div>
+                <p>
+                  Bạn chưa có tài khoản? <Link to="/register">Đăng ký</Link>
+                </p>
+              </div>
+            </Form>
+          );
+        }}
+      </Formik>
     </div>
   );
 };
