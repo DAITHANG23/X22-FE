@@ -11,16 +11,43 @@ const DishesListOrder = ({ data, setNextStep, setOrderDishesData }) => {
 
   const onSelectedRowChange = useCallback(
     (dishesData) => {
-      if (dishesData) {
+      if (dishesData && dishesData?.length === 1) {
+        const firstItem = dishesData[0];
+
+        const findProductItem = data.find(
+          (dishItem) => dishItem.id === firstItem.id
+        );
+        const indexOfAddingProductInCart = data.findIndex(
+          (cartItem) => cartItem.id === firstItem.id
+        );
+
+        const newCartItem = {
+          ...findProductItem,
+          quantity: 1,
+        };
+
+        if (indexOfAddingProductInCart !== -1) {
+          data[indexOfAddingProductInCart] = newCartItem;
+        }
+
+        setSelectedData(data);
+        setOrderDishesData(data);
+      } else if (dishesData?.length === 0) {
+        setSelectedData(dishesData);
+        setOrderDishesData(dishesData);
+      } else if (dishesData && dishesData?.length > 1) {
         const newData = dishesData.map((i) => {
           return { ...i, quantity: 1 };
         });
+
         setSelectedData(newData);
         setOrderDishesData(newData);
       }
     },
-    [setOrderDishesData]
+    [setOrderDishesData, data]
   );
+
+  console.log("selectedData", selectedData);
 
   const getTotalPrice = (data) => {
     let totalPrice = 0;
@@ -76,7 +103,7 @@ const DishesListOrder = ({ data, setNextStep, setOrderDishesData }) => {
           return (
             <div
               key={id}
-              sx={{ display: "flex", gap: 30 }}
+              style={{ display: "flex", gap: "16px" }}
               className={classes.nameDishesContainer}
             >
               <Avatar
@@ -85,7 +112,6 @@ const DishesListOrder = ({ data, setNextStep, setOrderDishesData }) => {
                   borderRadius: "12px",
                   width: 64,
                   height: 64,
-                  marginRight: "16px",
                 }}
               />
               <Box
@@ -125,7 +151,7 @@ const DishesListOrder = ({ data, setNextStep, setOrderDishesData }) => {
       {
         accessorKey: "amount",
         header: () => "Số lượng",
-        size: 200,
+        size: 300,
         cell: ({ row }) => {
           const { id } = row.original;
 

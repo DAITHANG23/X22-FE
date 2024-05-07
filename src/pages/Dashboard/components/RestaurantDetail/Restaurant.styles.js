@@ -77,7 +77,7 @@ export const useStyles = makeStyles((theme) => ({
 
   amountContainer: {
     [theme.breakpoints.down("md")]: {
-      width: "100px",
+      width: "200px",
     },
   },
 
