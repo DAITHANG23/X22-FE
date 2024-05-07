@@ -3,6 +3,7 @@ import useGetRestaurantDetails from "../../../Dashboard/hooks/useGetRestaurantDe
 import { useAppContext } from "../../../../context/AppContext.js";
 import DialogCreateRestaurant from "../dialogCreateRestaurant/index.js";
 import DialogEditRestaurant from "../dialogEditRestaurant/index.js";
+import "./index.css";
 
 const MainAdmin = () => {
   const { idRestaurant } = useAppContext();

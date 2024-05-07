@@ -251,7 +251,7 @@ const RestaurantList = () => {
                           </div>
 
                           <div>
-                            Giá chỉ từ: {formatPrice(restaurant.minPrice)} -{" "}
+                            Chỉ từ: {formatPrice(restaurant.minPrice)} -{" "}
                             {formatPrice(restaurant.maxPrice)}
                           </div>
                         </div>
