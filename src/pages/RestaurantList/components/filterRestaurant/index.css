@@ -4,7 +4,8 @@
 }
 
 .MuiFormControl-root {
-  margin-top: 10px !important;
+  margin-top: 15px !important;
+  margin-bottom: 15px !important;
 }
 
 .filter {
@@ -26,15 +27,44 @@
 .actions {
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: space-between;
+  gap: 10px;
 }
 
 .actions > button {
-  padding: 5px 10px;
+  cursor: pointer;
+  padding: 15px 30px;
+  font-size: 1.1rem;
+  border-radius: 6px;
+  border: 1px solid #000;
+  width: 100%;
+}
+
+.apply-filter {
+  background-color: red;
+  color: #fff;
 }
 
 .checkbox-wrapper {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.checkbox-wrapper > input {
+  height: 20px;
+  width: 20px;
+}
+
+.checkbox-wrapper > label {
+  font-size: 1.25rem;
+}
+
+.checkbox-filter {
+  margin-bottom: 20px;
+}
+
+.checkbox-filter > h2 {
+  margin-bottom: 10px;
 }
