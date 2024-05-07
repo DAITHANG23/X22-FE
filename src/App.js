@@ -11,29 +11,33 @@ import Reservations from "./pages/Reservations";
 import Admin from "./pages/Admin";
 import { useAppContext } from "./context/AppContext";
 import TopRestaurants from "./pages/TopRestaurants";
+import { Box } from "@mui/material";
 
 function App() {
   const { role } = useAppContext();
   return (
     <div className="container">
       <Header />
-      <Routes>
-        <Route path="/" element={<Navigate to="/dashboard" />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/dashboard" element={<RestaurantList />} />
-        <Route path="/restaurantdetail/:id" element={<RestaurantDetail />} />
+      <Box sx={{ minHeight: "600px" }}>
+        <Routes>
+          <Route path="/" element={<Navigate to="/dashboard" />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/dashboard" element={<RestaurantList />} />
+          <Route path="/restaurantdetail/:id" element={<RestaurantDetail />} />
 
-        <Route path="/toprestaurants" element={<TopRestaurants />} />
+          <Route path="/toprestaurants" element={<TopRestaurants />} />
 
-        <Route path="/reservations" element={<Reservations />} />
+          <Route path="/reservations" element={<Reservations />} />
 
-        {(role === 1 || role === 0) && (
-          <Route path="/admin/*" element={<Admin />} />
-        )}
+          {(role === 1 || role === 0) && (
+            <Route path="/admin/*" element={<Admin />} />
+          )}
 
-        <Route path="/*" element={<ErrorPage />} />
-      </Routes>
+          <Route path="/*" element={<ErrorPage />} />
+        </Routes>
+      </Box>
+
       <Footer />
     </div>
   );

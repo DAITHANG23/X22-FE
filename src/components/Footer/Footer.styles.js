@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
 export default useStyles;
 
 export const StyledBoxContainer = styled(Box)(() => ({
-  marginTop: "300px",
+  marginTop: "50px",
   width: "100%",
 }));
 

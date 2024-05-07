@@ -40,7 +40,12 @@ function getLabelText(value) {
   return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
 }
 
-const ReviewsRestaurantDetail = ({ idRestaurant }) => {
+const ReviewsRestaurantDetail = ({
+  idRestaurant,
+  reviews,
+  avgRate,
+  setIsRefetch,
+}) => {
   const classes = useStyles();
 
   const [value, setValue] = useState(0);
@@ -53,7 +58,7 @@ const ReviewsRestaurantDetail = ({ idRestaurant }) => {
 
   const { mutate: postReviewRestaurant, isSuccess } = useReviewsRestaurant();
 
-  const { reviewsRestaurantDetailData } =
+  const { reviewsRestaurantDetailData, refetch } =
     useGetReviewsRestaurantDetail(idRestaurant);
 
   const handleClose = () => {
@@ -77,10 +82,12 @@ const ReviewsRestaurantDetail = ({ idRestaurant }) => {
 
   useEffect(() => {
     if (isSuccess) {
+      refetch();
       handleClose();
       setValue(0);
+      setIsRefetch(isSuccess);
     }
-  }, [isSuccess]);
+  }, [isSuccess, refetch, setIsRefetch]);
 
   const handleSubmit = (formData) => {
     const postOfDay = new Date().toLocaleString("en-US", {
@@ -95,6 +102,7 @@ const ReviewsRestaurantDetail = ({ idRestaurant }) => {
     };
     postReviewRestaurant(params);
   };
+
   return (
     <Box
       sx={{
@@ -322,14 +330,14 @@ const ReviewsRestaurantDetail = ({ idRestaurant }) => {
           </Typography>
 
           <Typography sx={{ fontSize: "48px", fontWeight: 800 }}>
-            4.9/5
+            {Math.round(avgRate)}/5
           </Typography>
 
-          <Rating defaultValue={4.9} precision={0.1} readOnly />
+          <Rating defaultValue={4} readOnly />
 
           <Typography
             sx={{ fontSize: "14px", fontWeight: 400, color: "#888B94" }}
-          >{`(9.12k reviews)`}</Typography>
+          >{`(${reviews || 0} reviews)`}</Typography>
         </Box>
         <Box
           width={"50%"}
@@ -368,7 +376,14 @@ const ReviewsRestaurantDetail = ({ idRestaurant }) => {
       <Box>
         {reviewsRestaurantDetailData?.map((item) => (
           <>
-            <Box sx={{ display: "flex", padding: "32px", marginBottom: "8px" }}>
+            <Box
+              sx={{
+                display: "flex",
+                paddingTop: "32px",
+                marginBottom: "8px",
+                paddingLeft: "32px",
+              }}
+            >
               <Box
                 sx={{
                   display: "flex",
