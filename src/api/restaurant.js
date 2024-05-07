@@ -45,4 +45,12 @@ export default {
       },
     });
   },
+
+  editRestaurant: ({ idRestaurant, formData }) => {
+    return axiosWrapper.put(`/restaurant/${idRestaurant}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  },
 };

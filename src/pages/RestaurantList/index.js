@@ -244,7 +244,9 @@ const RestaurantList = () => {
                             Điểm đánh giá:{" "}
                             <span>
                               <StarIcon style={{ color: "yellow" }}></StarIcon>
-                              {restaurant.avgRate}
+                              {restaurant.avgRate !== undefined
+                                ? restaurant.avgRate.toFixed(1)
+                                : "4"}
                             </span>
                           </div>
 
