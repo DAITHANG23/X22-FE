@@ -22,6 +22,9 @@ const useReviewsRestaurant = () => {
           horizontal: "center",
         },
       });
+      queryClient.invalidateQueries(REVIEW_RESTAURANT_QUERY_KEY, {
+        refetchInactive: true,
+      });
     },
 
     onError: (data) => {

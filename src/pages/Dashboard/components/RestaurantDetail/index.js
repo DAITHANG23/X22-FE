@@ -20,6 +20,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate, useParams } from "react-router-dom";
 import ReviewsRestaurantDetail from "./ReviewsRestaurantDetail";
 import CustomModal from "../../../../shares/components/CustomModal";
+import { useQueryClient } from "react-query";
+import { RESTAURANT_DETAIL_QUERY_KEY } from "../../constant";
 
 const RESTAURANTS_DISHES_LIST_DATA = [
   {
@@ -64,7 +66,7 @@ const RestaurantDetail = () => {
   const [orderDishesData, setOrderDishesData] = useState([]);
   const [nextStep, setNextStep] = useState(false);
   const [isRefetch, setIsRefetch] = useState();
-
+  const queryClient = useQueryClient();
   const onLick = () => {
     setOpen(true);
   };
@@ -100,9 +102,12 @@ const RestaurantDetail = () => {
 
   useEffect(() => {
     if (isRefetch) {
+      queryClient.invalidateQueries(RESTAURANT_DETAIL_QUERY_KEY, {
+        refetchInactive: true,
+      });
       refetch();
     }
-  }, [isRefetch, refetch]);
+  }, [isRefetch, refetch, queryClient]);
 
   const IMAGES_LIST_RESTAURANT = [
     ...(images || []).map((url) => {
