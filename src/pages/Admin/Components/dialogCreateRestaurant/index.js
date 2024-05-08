@@ -16,7 +16,7 @@ import {
 import apiService from "../../../../api";
 import { CircularProgress } from "@mui/material";
 
-const DialogCreateRestaurant = ({ open, handleClose }) => {
+const DialogCreateRestaurant = ({ open, handleClose, idRestaurant }) => {
   const [loading, setLoading] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [name, setName] = useState("");
@@ -91,6 +91,8 @@ const DialogCreateRestaurant = ({ open, handleClose }) => {
       setError(null);
       setTimeout(() => {
         handleClose();
+
+        window.location.reload();
       }, 2000);
     } catch (error) {
       console.error("Error creating restaurant:", error);

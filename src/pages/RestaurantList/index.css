@@ -3,7 +3,22 @@
   align-items: center;
 }
 
+@media screen and (max-width: 768px) {
+  .restaurant-card {
+    flex: 0 0 calc(50% - 20px);
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .restaurant-card {
+    flex: 1 0 100%;
+  }
+}
+
 .restaurant-list-container {
+  width: 100%;
+  max-width: 1400px; /* Adjust max-width as needed */
+  margin: 0 auto;
   padding: 30px;
   padding-left: 0;
   background-color: #fff;
@@ -15,24 +30,25 @@
 }
 
 .restaurant-list {
-  display: flex;
   margin: 20px 0;
   gap: 1%;
   margin-top: 70px;
+  position: relative;
 }
 
 .restaurant-card-items > h1 {
   margin: 20px 0;
 }
 .filter-container {
-  width: 29%;
+  max-width: 30%;
   padding: 0 30px;
-  background-color: #ebedf5;
+  position: fixed;
 }
 
 .restaurant-card {
-  width: 70%;
+  max-width: 70%;
   float: right;
+  margin-bottom: 30px;
 }
 
 li {

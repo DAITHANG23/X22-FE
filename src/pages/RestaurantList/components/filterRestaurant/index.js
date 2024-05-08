@@ -58,10 +58,10 @@ const FilterRestaurant = ({
         </TextField>
 
         <div className="checkbox-filter">
-          <h3>Chọn khoảng giá:</h3>
+          <h2>Chọn khoảng giá:</h2>
           <div className="checkbox-wrapper">
             <input
-              type="checkbox"
+              type="radio"
               checked={minPrice === 0 && maxPrice === 100000}
               onChange={() => {
                 if (minPrice !== 0 || maxPrice !== 100000) {
@@ -77,7 +77,7 @@ const FilterRestaurant = ({
           </div>
           <div className="checkbox-wrapper">
             <input
-              type="checkbox"
+              type="radio"
               checked={minPrice === 100000 && maxPrice === 500000}
               onChange={() => {
                 if (minPrice !== 100000 || maxPrice !== 500000) {
@@ -93,7 +93,7 @@ const FilterRestaurant = ({
           </div>
           <div className="checkbox-wrapper">
             <input
-              type="checkbox"
+              type="radio"
               checked={minPrice === 500000 && maxPrice === 1000000}
               onChange={() => {
                 if (minPrice !== 500000 || maxPrice !== 1000000) {
@@ -110,7 +110,7 @@ const FilterRestaurant = ({
 
           <div className="checkbox-wrapper">
             <input
-              type="checkbox"
+              type="radio"
               checked={minPrice > 1000000}
               onChange={() => {
                 if (minPrice <= 1000000 || maxPrice !== "") {
@@ -128,7 +128,9 @@ const FilterRestaurant = ({
 
         <div className="actions">
           <button onClick={handleResetFilters}>Mặc định</button>
-          <button onClick={handleSubmitFilters}>Tìm Kiếm</button>
+          <button className="apply-filter" onClick={handleSubmitFilters}>
+            Tìm Kiếm
+          </button>
         </div>
       </div>
     </div>

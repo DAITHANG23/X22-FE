@@ -1,12 +1,5 @@
-import {
-  Box,
-  Button,
-  Typography,
-  Rating,
-  IconButton,
-  Grid,
-} from "@mui/material";
-import React, { useState } from "react";
+import { Box, Button, Typography, Rating, IconButton } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import AsNavFor from "../../../../shares/components/Slider/SliderAsNavFor";
 import {
@@ -27,7 +20,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate, useParams } from "react-router-dom";
 import ReviewsRestaurantDetail from "./ReviewsRestaurantDetail";
 import CustomModal from "../../../../shares/components/CustomModal";
-import useAccount from "../../../../hooks/useAccount";
 
 const RESTAURANTS_DISHES_LIST_DATA = [
   {
@@ -71,6 +63,7 @@ const RestaurantDetail = () => {
   const [cart, setCart] = useState();
   const [orderDishesData, setOrderDishesData] = useState([]);
   const [nextStep, setNextStep] = useState(false);
+  const [isRefetch, setIsRefetch] = useState();
 
   const onLick = () => {
     setOpen(true);
@@ -88,20 +81,28 @@ const RestaurantDetail = () => {
     navigate(to);
   };
 
-  const { restaurantDetailData } = useGetRestaurantDetails(idRestaurant);
+  const { restaurantDetailData, refetch } =
+    useGetRestaurantDetails(idRestaurant);
 
   const {
     name,
     phoneNumber,
     address,
     images,
-    // avgRate,
+    avgRate,
     // type,
     // taste,
+    reviews,
     description,
     timeStart,
     timeEnd,
   } = restaurantDetailData || {};
+
+  useEffect(() => {
+    if (isRefetch) {
+      refetch();
+    }
+  }, [isRefetch, refetch]);
 
   const IMAGES_LIST_RESTAURANT = [
     ...(images || []).map((url) => {
@@ -153,8 +154,8 @@ const RestaurantDetail = () => {
           <StyledTitleRestaurant>{name}</StyledTitleRestaurant>
 
           <StyledBoxRating>
-            <Rating defaultValue={Math.round(4.9)} precision={0.1} readOnly />
-            <StyledTextView>1.1k views</StyledTextView>
+            <Rating defaultValue={4} readOnly />
+            <StyledTextView>{reviews} views</StyledTextView>
           </StyledBoxRating>
 
           <Box>
@@ -206,12 +207,15 @@ const RestaurantDetail = () => {
             {description}
           </Typography>
 
-          <Typography sx={{ paddingTop: "12px" }}></Typography>
-
           <StyledButtonOrder onClick={onLick}>Đặt bàn</StyledButtonOrder>
         </StyledBoxContentDetails>
       </StyledBoxContentContainer>
-      <ReviewsRestaurantDetail idRestaurant={idRestaurant} />
+      <ReviewsRestaurantDetail
+        idRestaurant={idRestaurant}
+        reviews={reviews}
+        avgRate={avgRate}
+        setIsRefetch={setIsRefetch}
+      />
     </StyledContainer>
   );
 };

@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
 export default useStyles;
 
 export const StyledBoxContainer = styled(Box)(() => ({
-  marginTop: "300px",
+  marginTop: "50px",
   width: "100%",
 }));
 
@@ -23,6 +23,7 @@ export const StyledBoxFooterFirst = styled(Grid)(({ theme }) => ({
   gap: "50px",
   padding: "50px",
   justifyContent: "space-around",
+  position: "relative",
 }));
 
 export const StyledBoxContent = styled(Box)(() => ({
@@ -66,6 +67,7 @@ export const StyledBoxFooterSecond = styled(Box)(({ theme }) => ({
   textAlign: "center",
   alignItems: "center",
   color: theme.palette.background.paper,
+  position: "relative",
 }));
 
 export const StyledBoxLinkContact = styled(Box)(() => ({

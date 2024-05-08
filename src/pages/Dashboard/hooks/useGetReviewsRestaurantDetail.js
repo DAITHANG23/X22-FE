@@ -7,7 +7,11 @@ const getReviewsRestaurantDetail = (restaurantId) => {
 };
 
 const useGetReviewsRestaurantDetail = (restaurantId) => {
-  const { data: reviewsRestaurantDetailData, isLoading } = useQuery(
+  const {
+    data: reviewsRestaurantDetailData,
+    isLoading,
+    refetch,
+  } = useQuery(
     [REVIEW_RESTAURANT_QUERY_KEY, restaurantId],
     () => getReviewsRestaurantDetail(restaurantId),
     { enabled: true }
@@ -15,6 +19,7 @@ const useGetReviewsRestaurantDetail = (restaurantId) => {
   return {
     reviewsRestaurantDetailData,
     isLoading,
+    refetch,
   };
 };
 

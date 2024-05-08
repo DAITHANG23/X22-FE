@@ -16,8 +16,7 @@ import EmailIcon from "@mui/icons-material/Email";
 import * as Yup from "yup";
 import { Form, Formik } from "formik";
 import FormTextField from "../../shares/components/CustomFormTextField";
-
-const REGEX_VALIDATE_EMAIL = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+import { REGEX_VALIDATE_EMAIL } from "../Header/constant";
 
 const Footer = () => {
   const classes = useStyles();
