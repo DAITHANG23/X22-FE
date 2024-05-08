@@ -13,14 +13,18 @@ const AppContextProvider = ({ children }) => {
   const [idRestaurant, setIdRestaurant] = useState(null);
 
   const login = async (token) => {
-    localStorage.setItem("token", token);
-    axiosWrapper.defaults.headers["Authorization"] = `Bearer ${token}`;
-    const dataResponse = await accountApi.getAccountCustomer();
-    setCurrentUser(dataResponse);
-    setRole(dataResponse?.role);
-    setIsLogin(true);
-    setToken(token);
-    setIdRestaurant(dataResponse?.idRestaurant);
+    try {
+      localStorage.setItem("token", token);
+      axiosWrapper.defaults.headers["Authorization"] = `Bearer ${token}`;
+      const dataResponse = await accountApi.getAccountCustomer();
+      setCurrentUser(dataResponse);
+      setRole(dataResponse?.role);
+      setIsLogin(true);
+      setToken(token);
+      setIdRestaurant(dataResponse?.idRestaurant);
+    } catch (error) {
+      console.log("error", error);
+    }
   };
 
   const logout = () => {

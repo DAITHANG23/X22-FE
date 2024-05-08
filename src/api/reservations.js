@@ -9,6 +9,9 @@ export default {
       },
     });
   },
+  getReservationsById: (id) => {
+    return axiosWrapper.get(`reservations/${id}`);
+  },
   getEmployeeReservations: (token) => {
     return axiosWrapper.get("reservations/employee", {
       headers: {
@@ -19,6 +22,24 @@ export default {
   cancelReservation: (id) => {
     return axiosWrapper.post("reservations/cancel", {
       idReservation: id,
+    });
+  },
+  confirmRevervation: (token, id) => {
+    return axiosWrapper.post("reservations/employee/confirm", {
+      idReservation: id,
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  },
+  CheckIn: (token, id) => {
+    return axiosWrapper.post("reservations/checkin", {
+      idReservation: id,
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  },
+  CheckOut: (token, id) => {
+    return axiosWrapper.post("reservations/checkout", {
+      idReservation: id,
+      headers: { Authorization: `Bearer ${token}` },
     });
   },
 };

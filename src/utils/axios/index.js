@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosWrapper = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
+  baseURL: "https://x22-be-0ugr.onrender.com",
 });
 
 export default axiosWrapper;
