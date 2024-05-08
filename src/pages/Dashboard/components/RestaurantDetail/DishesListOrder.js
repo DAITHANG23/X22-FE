@@ -47,8 +47,6 @@ const DishesListOrder = ({ data, setNextStep, setOrderDishesData }) => {
     [setOrderDishesData, data]
   );
 
-  console.log("selectedData", selectedData);
-
   const getTotalPrice = (data) => {
     let totalPrice = 0;
     for (let i = 0; i < data.length; i++) {
