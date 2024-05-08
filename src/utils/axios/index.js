@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosWrapper = axios.create({
-  baseURL: "http://localhost:3002",
+  baseURL: "https://x22-be-0ugr.onrender.com",
 });
 
 export default axiosWrapper;
