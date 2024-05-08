@@ -8,6 +8,7 @@ import "./styles.css";
 import { Form, Formik } from "formik";
 import FormTextField from "../../shares/components/CustomFormTextField";
 import {
+  Box,
   FormControl,
   IconButton,
   InputAdornment,
@@ -114,17 +115,20 @@ const Login = () => {
               }}
             >
               <h2 style={{ paddingBottom: "40px" }}>Đăng nhập</h2>
-              <FormTextField
-                required
-                name="email"
-                label={"Email"}
-                placeholder={"Nhập email"}
-                variant="outlined"
-                style={{
-                  width: "100%",
-                  margin: "32px 0px",
-                }}
-              />
+              <Box sx={{ marginBottom: "32px" }}>
+                <FormTextField
+                  required
+                  name="email"
+                  label={"Email"}
+                  placeholder={"Nhập email"}
+                  variant="outlined"
+                  style={{
+                    width: "100%",
+                    margin: "32px 0px",
+                  }}
+                />
+              </Box>
+
               <FormControl
                 sx={{
                   width: "100%",
