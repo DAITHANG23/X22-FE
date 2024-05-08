@@ -4,3 +4,34 @@ button {
   font-size: 18px;
   cursor: pointer;
 }
+
+.AdminContent {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-left: 20px;
+}
+
+.AdminContent > h1 {
+  margin-bottom: 15px;
+}
+
+.RestaurantDetailImage > img {
+  width: 400px;
+  height: 200px;
+}
+
+.RestaurantDetailInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.RestaurantDetailInfo > h3 {
+  display: flex;
+  gap: 8px;
+}
+
+p {
+  font-weight: 500;
+  font-size: 1.25rem;
+}
