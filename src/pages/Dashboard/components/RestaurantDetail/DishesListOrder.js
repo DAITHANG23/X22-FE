@@ -33,8 +33,12 @@ const DishesListOrder = ({ data, setNextStep, setOrderDishesData }) => {
         setSelectedData(data);
         setOrderDishesData(data);
       } else if (dishesData?.length === 0) {
-        setSelectedData(dishesData);
-        setOrderDishesData(dishesData);
+        const newData = data.map((i) => {
+          delete i.quantity;
+          return data;
+        });
+        setSelectedData(newData);
+        setOrderDishesData(newData);
       } else if (dishesData && dishesData?.length > 1) {
         const newData = dishesData.map((i) => {
           return { ...i, quantity: 1 };
