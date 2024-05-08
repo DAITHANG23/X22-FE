@@ -6,6 +6,7 @@ import Alert from "@mui/material/Alert";
 import { useNavigate } from "react-router-dom";
 import { Form, Formik } from "formik";
 import {
+  Box,
   FormControl,
   FormHelperText,
   IconButton,
@@ -96,43 +97,48 @@ function Register() {
                 </Alert>
               )}
               <h2 style={{ paddingBottom: "40px" }}>Đăng ký</h2>
+              <Box sx={{ marginBottom: "32px" }}>
+                <FormTextField
+                  required
+                  name="email"
+                  label={"Email"}
+                  placeholder={"Nhập email"}
+                  variant="outlined"
+                  style={{
+                    width: "100%",
+                    margin: "32px 0px",
+                  }}
+                />
+              </Box>
 
-              <FormTextField
-                required
-                name="email"
-                label={"Email"}
-                placeholder={"Nhập email"}
-                variant="outlined"
-                style={{
-                  width: "100%",
-                  margin: "32px 0px",
-                }}
-              />
+              <Box sx={{ marginBottom: "32px" }}>
+                <FormTextField
+                  required
+                  name="name"
+                  label={"Họ và tên"}
+                  placeholder={"Nhập họ và tên"}
+                  variant="outlined"
+                  style={{
+                    width: "100%",
+                    margin: "32px 0px",
+                  }}
+                />
+              </Box>
 
-              <FormTextField
-                required
-                name="name"
-                label={"Họ và tên"}
-                placeholder={"Nhập họ và tên"}
-                variant="outlined"
-                style={{
-                  width: "100%",
-                  margin: "32px 0px",
-                }}
-              />
-
-              <FormTextField
-                required
-                name="phoneNumber"
-                type="number"
-                label={"Số điện thoại"}
-                placeholder={"Nhập số điện thoại"}
-                variant="outlined"
-                style={{
-                  width: "100%",
-                  margin: "32px 0px",
-                }}
-              />
+              <Box sx={{ marginBottom: "32px" }}>
+                <FormTextField
+                  required
+                  name="phoneNumber"
+                  type="number"
+                  label={"Số điện thoại"}
+                  placeholder={"Nhập số điện thoại"}
+                  variant="outlined"
+                  style={{
+                    width: "100%",
+                    margin: "32px 0px",
+                  }}
+                />
+              </Box>
 
               <FormControl
                 sx={{
