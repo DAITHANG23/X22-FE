@@ -15,10 +15,10 @@ const DishesListOrder = ({ data, setNextStep, setOrderDishesData }) => {
         const firstItem = dishesData[0];
 
         const findProductItem = data.find(
-          (dishItem) => dishItem.id === firstItem.id
+          (dishItem) => dishItem._id === firstItem._id
         );
         const indexOfAddingProductInCart = data.findIndex(
-          (cartItem) => cartItem.id === firstItem.id
+          (cartItem) => cartItem._id === firstItem._id
         );
 
         const newCartItem = {
@@ -33,12 +33,12 @@ const DishesListOrder = ({ data, setNextStep, setOrderDishesData }) => {
         setSelectedData(data);
         setOrderDishesData(data);
       } else if (dishesData?.length === 0) {
-        const newData = data.map((i) => {
+        data.map((i) => {
           delete i.quantity;
           return data;
         });
-        setSelectedData(newData);
-        setOrderDishesData(newData);
+        setSelectedData(dishesData);
+        setOrderDishesData(dishesData);
       } else if (dishesData && dishesData?.length > 1) {
         const newData = dishesData.map((i) => {
           return { ...i, quantity: 1 };
@@ -53,7 +53,7 @@ const DishesListOrder = ({ data, setNextStep, setOrderDishesData }) => {
 
   const getTotalPrice = (data) => {
     let totalPrice = 0;
-    for (let i = 0; i < data.length; i++) {
+    for (let i = 0; i < data?.length; i++) {
       const cartItem = data[i];
       totalPrice += cartItem.price * cartItem.quantity;
     }
@@ -101,10 +101,10 @@ const DishesListOrder = ({ data, setNextStep, setOrderDishesData }) => {
         header: () => <span>Món ăn</span>,
         size: 350,
         cell: ({ row }) => {
-          const { id, name, images } = row.original;
+          const { _id, name, images } = row.original;
           return (
             <div
-              key={id}
+              key={_id}
               style={{ display: "flex", gap: "16px" }}
               className={classes.nameDishesContainer}
             >
@@ -155,13 +155,13 @@ const DishesListOrder = ({ data, setNextStep, setOrderDishesData }) => {
         header: () => "Số lượng",
         size: 300,
         cell: ({ row }) => {
-          const { id } = row.original;
+          const { _id } = row.original;
 
           const isDisabledButton = selectedData[row.index]?.quantity;
 
           const onDecreaseQuantity = (dishItemId) => {
             const cartIndexProduct = selectedData.findIndex((i) => {
-              return i.id === dishItemId;
+              return i._id === dishItemId;
             });
             const updatingCart = [...selectedData];
 
@@ -171,7 +171,7 @@ const DishesListOrder = ({ data, setNextStep, setOrderDishesData }) => {
 
           const onIncreaseQuantity = (dishItemId) => {
             const cartIndexProduct = selectedData.findIndex((cartItem) => {
-              return cartItem.id === dishItemId;
+              return cartItem._id === dishItemId;
             });
 
             const updatingCart = [...selectedData];
@@ -179,9 +179,9 @@ const DishesListOrder = ({ data, setNextStep, setOrderDishesData }) => {
             setSelectedData(updatingCart);
           };
           return (
-            <div key={id} className={classes.amountContainer}>
+            <div key={_id} className={classes.amountContainer}>
               <button
-                onClick={() => onDecreaseQuantity(id)}
+                onClick={() => onDecreaseQuantity(_id)}
                 disabled={
                   !isDisabledButton || selectedData[row.index]?.quantity === 1
                 }
@@ -199,7 +199,7 @@ const DishesListOrder = ({ data, setNextStep, setOrderDishesData }) => {
                   : "0"}
               </span>
               <button
-                onClick={() => onIncreaseQuantity(id)}
+                onClick={() => onIncreaseQuantity(_id)}
                 disabled={!isDisabledButton}
                 className={clsx({
                   [classes.buttonAmount || ""]: true,
@@ -254,14 +254,14 @@ const DishesListOrder = ({ data, setNextStep, setOrderDishesData }) => {
       <Box sx={{ marginTop: "32px", textAlign: "end" }}>
         <Button
           sx={{
-            backgroundColor: !selectedData.length ? "#CED0D6" : "#15B138",
+            backgroundColor: !selectedData?.length ? "#CED0D6" : "#15B138",
             color: "#FFF",
             textTransform: "none",
             padding: "6px 48px",
             fontSize: "16px",
             fontWeight: 600,
           }}
-          disabled={!selectedData.length}
+          disabled={!selectedData?.length}
           onClick={handleGotoNext}
         >
           Tiếp

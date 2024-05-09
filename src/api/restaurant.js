@@ -20,7 +20,7 @@ export default {
 
   getRestaurantDetail: async ({ restaurantId }) => {
     const res = await axiosWrapper.get(`/restaurant/${restaurantId}`);
-    return res.data.data?.restaurant;
+    return res.data.data;
   },
 
   reviewsRestaurant: (formData) => {

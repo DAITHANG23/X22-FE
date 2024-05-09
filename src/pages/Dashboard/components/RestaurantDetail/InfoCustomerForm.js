@@ -59,7 +59,12 @@ const InfoCustomerForm = ({
   };
 
   const handleSubmit = (formData) => {
-    const params = { order: orderDishesData, ...formData, idRestaurant };
+    const params = {
+      order: orderDishesData,
+      ...formData,
+      idRestaurant,
+      idCustomer: currentUser?._id,
+    };
 
     onUpdateOrderRestaurant(params, () => {
       handleClose();
