@@ -62,7 +62,7 @@ function Register() {
 
   const handleSubmit = (formData) => {
     setErrorsRegister("");
-    mutate(formData);
+    mutate({ ...formData, role });
   };
 
   useEffect(() => {
