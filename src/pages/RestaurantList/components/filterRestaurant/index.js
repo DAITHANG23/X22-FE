@@ -115,7 +115,7 @@ const FilterRestaurant = ({
               onChange={() => {
                 if (minPrice <= 1000000 || maxPrice !== "") {
                   setMinPrice(1001000);
-                  setMaxPrice("");
+                  setMaxPrice(10000000);
                 } else {
                   setMinPrice("");
                   setMaxPrice("");
