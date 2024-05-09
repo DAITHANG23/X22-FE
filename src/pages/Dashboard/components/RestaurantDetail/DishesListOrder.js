@@ -21,17 +21,20 @@ const DishesListOrder = ({ data, setNextStep, setOrderDishesData }) => {
           (cartItem) => cartItem._id === firstItem._id
         );
 
+        console.log("data:", data);
         const newCartItem = {
           ...findProductItem,
           quantity: 1,
         };
-
+        const newData = data.map((i) => {
+          return { ...i, quantity: 0 };
+        });
         if (indexOfAddingProductInCart !== -1) {
-          data[indexOfAddingProductInCart] = newCartItem;
+          newData[indexOfAddingProductInCart] = newCartItem;
         }
 
-        setSelectedData(data);
-        setOrderDishesData(data);
+        setSelectedData(newData);
+        setOrderDishesData(newData);
       } else if (dishesData?.length === 0) {
         data.map((i) => {
           delete i.quantity;
@@ -55,7 +58,7 @@ const DishesListOrder = ({ data, setNextStep, setOrderDishesData }) => {
     let totalPrice = 0;
     for (let i = 0; i < data?.length; i++) {
       const cartItem = data[i];
-      totalPrice += cartItem.price * cartItem.quantity;
+      totalPrice += cartItem.price * cartItem?.quantity;
     }
     return totalPrice;
   };

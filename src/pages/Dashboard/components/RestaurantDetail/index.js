@@ -123,7 +123,7 @@ const RestaurantDetail = () => {
 
     return RESTAURANTS_DISHES_LIST_DATA;
   }, [restaurantDetailData]);
-  console.log("listMenuRestaurant", listMenuRestaurant);
+
   return (
     <StyledContainer container>
       <CustomModal open={open} onClose={handleClose}>

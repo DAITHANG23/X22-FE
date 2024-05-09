@@ -6,31 +6,31 @@ import { useSpring, animated } from "@react-spring/web";
 import getTheme from "../../../theme/Theme";
 const theme = getTheme();
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "50%",
-  bgcolor: "background.paper",
-  border: "none",
-  borderRadius: "8px",
-  boxShadow: "0px 8px 24px 0px #2E34790A",
-  overflow: "scroll",
+const CustomModal = ({ children, open, handleClose, isModalReview }) => {
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "50%",
+    bgcolor: "background.paper",
+    border: "none",
+    borderRadius: "8px",
+    boxShadow: "0px 8px 24px 0px #2E34790A",
+    overflow: "scroll",
 
-  p: 4,
-  [theme.breakpoints.down("lg")]: {
-    width: "60%",
-    height: "600px !important",
-    overflow: "scroll",
-  },
-  [theme.breakpoints.down("md")]: {
-    width: "90%",
-    height: "600px !important",
-    overflow: "scroll",
-  },
-};
-const CustomModal = ({ children, open, handleClose }) => {
+    p: 4,
+    [theme.breakpoints.down("lg")]: {
+      width: "60%",
+      height: isModalReview ? "auto" : "600px !important",
+      overflow: "scroll",
+    },
+    [theme.breakpoints.down("md")]: {
+      width: "90%",
+      height: isModalReview ? "auto" : "600px !important",
+      overflow: "scroll",
+    },
+  };
   return (
     <Modal
       open={open}
