@@ -164,9 +164,16 @@ const Employee = () => {
         {dataResponse.length === 0 && <p>Không có nhân viên nào</p>}
         {dataResponse.map((item) => (
           <div key={item._id} className="employeedetail">
-            <p>Email: {item.email}</p>
-            <p>Họ và tên: {item.name}</p>
-            <p>Số điện thoại: {item.phoneNumber}</p>
+            <strong>Tài khoản:</strong>
+            <p>
+              <strong>Email:</strong> {item.email}
+            </p>
+            <p>
+              <strong>Họ và tên:</strong> {item.name}
+            </p>
+            <p>
+              <strong>Số điện thoại:</strong> {item.phoneNumber}
+            </p>
             {item.role === 1 && (
               <div className="Buttondetail">
                 <button onClick={() => handleDelete(item._id)}>

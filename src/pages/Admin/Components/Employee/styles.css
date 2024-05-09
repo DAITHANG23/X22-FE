@@ -17,7 +17,10 @@
   min-width: 10%;
 }
 .EmplyeeContainer {
-  width: 100%;
+  width: 90%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-left: 20px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -27,16 +30,20 @@
 }
 .listEmployee {
   display: flex;
+  justify-content: space-around;
   flex-wrap: wrap;
   gap: 10px;
 }
 .employeedetail {
-  min-width: 30%;
+  width: 30%;
   border: 1px solid #b9b7b7;
   border-radius: 5px;
   padding: 10px;
   display: flex;
   flex-direction: column;
+}
+.employeedetail p {
+  word-wrap: break-word;
 }
 .Buttondetail button {
   background-color: #4caf50;
