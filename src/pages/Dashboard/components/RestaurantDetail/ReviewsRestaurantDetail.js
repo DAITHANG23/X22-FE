@@ -118,7 +118,7 @@ const ReviewsRestaurantDetail = ({
         overflow: "scroll",
       }}
     >
-      <CustomModal open={open} handleClose={handleClose}>
+      <CustomModal open={open} handleClose={handleClose} isModalReview>
         <Formik
           onSubmit={handleSubmit}
           initialValues={initialValues}
