@@ -93,7 +93,7 @@ const getTheme = () => {
         xs: 0,
         sm: 600,
         md: 900,
-        lg: 1280,
+        lg: 1444,
         xl: 1920,
       },
     },

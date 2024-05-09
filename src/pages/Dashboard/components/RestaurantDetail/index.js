@@ -1,5 +1,5 @@
 import { Box, Button, Typography, Rating, IconButton } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import AsNavFor from "../../../../shares/components/Slider/SliderAsNavFor";
 import {
@@ -25,7 +25,7 @@ import { RESTAURANT_DETAIL_QUERY_KEY } from "../../constant";
 
 const RESTAURANTS_DISHES_LIST_DATA = [
   {
-    id: "1",
+    _id: "1",
     name: "Phở",
     type: 0,
     images: "/images/dishes/pho.jpg",
@@ -34,7 +34,7 @@ const RESTAURANTS_DISHES_LIST_DATA = [
   },
 
   {
-    id: "2",
+    _id: "2",
     name: "Bún bò",
     type: 1,
     images: "/images/dishes/bunbo.jpg",
@@ -43,7 +43,7 @@ const RESTAURANTS_DISHES_LIST_DATA = [
   },
 
   {
-    id: "3",
+    _id: "3",
     name: "Lẩu Thái",
     type: 3,
     images: "/images/dishes/hotpot.webp",
@@ -98,7 +98,7 @@ const RestaurantDetail = () => {
     description,
     timeStart,
     timeEnd,
-  } = restaurantDetailData || {};
+  } = restaurantDetailData?.restaurant || {};
 
   useEffect(() => {
     if (isRefetch) {
@@ -116,12 +116,20 @@ const RestaurantDetail = () => {
     ...IMAGES_LIST,
   ];
 
+  const listMenuRestaurant = useMemo(() => {
+    if (restaurantDetailData?.menu?.length !== 0) {
+      return restaurantDetailData?.menu;
+    }
+
+    return RESTAURANTS_DISHES_LIST_DATA;
+  }, [restaurantDetailData]);
+  console.log("listMenuRestaurant", listMenuRestaurant);
   return (
     <StyledContainer container>
       <CustomModal open={open} onClose={handleClose}>
         {!nextStep ? (
           <DishesListOrder
-            data={RESTAURANTS_DISHES_LIST_DATA}
+            data={listMenuRestaurant}
             cart={cart}
             setCart={setCart}
             setNextStep={setNextStep}

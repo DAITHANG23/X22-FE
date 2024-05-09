@@ -34,6 +34,7 @@ const useOrderRestaurant = () => {
   } = OrderRestaurant();
 
   const onUpdateOrderRestaurant = (formData, onSuccess) => {
+    console.log("formData:", formData);
     const payload = {
       ...formData,
     };

@@ -16,12 +16,18 @@ const style = {
   border: "none",
   borderRadius: "8px",
   boxShadow: "0px 8px 24px 0px #2E34790A",
+  overflow: "scroll",
+
   p: 4,
   [theme.breakpoints.down("lg")]: {
     width: "60%",
+    height: "600px !important",
+    overflow: "scroll",
   },
   [theme.breakpoints.down("md")]: {
     width: "90%",
+    height: "600px !important",
+    overflow: "scroll",
   },
 };
 const CustomModal = ({ children, open, handleClose }) => {

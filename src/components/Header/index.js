@@ -29,11 +29,12 @@ import { Link, useNavigate } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import { PAGES_NAVBAR, SETTINGS_ACCOUNT } from "./constant";
 import { useAppContext } from "../../context/AppContext";
+import { useSnackbar } from "notistack";
 
 const Header = () => {
   const { isLogin, logout, currentUser } = useAppContext();
   const [anchorElNav, setAnchorElNav] = useState();
-
+  const { enqueueSnackbar } = useSnackbar();
   const [anchorElUser, setAnchorElUser] = useState();
 
   const classes = useStyles();
@@ -53,12 +54,22 @@ const Header = () => {
   };
 
   const handleCloseUserMenu = (value) => {
-    // if (value === "Profile") {
-    //   navigate("/admin/user/thang");
-    // }
-
     if (value === "Hoạt động đặt bàn") {
       navigate("/reservations");
+    } else if (
+      value === "Dành cho Admin" &&
+      (currentUser?.role === 1 || currentUser?.role === 0)
+    ) {
+      navigate("/admin/*");
+    } else if (value === "Dành cho Admin" && currentUser?.role === 2) {
+      enqueueSnackbar("Bạn không phải là Admin.", {
+        variant: "warning",
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "center",
+        },
+        timer: 1000,
+      });
     }
 
     setAnchorElUser(false);
