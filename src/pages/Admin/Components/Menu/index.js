@@ -82,6 +82,20 @@ const Menu = () => {
         return "Không xác định";
     }
   };
+  const handleDiscountChange = (e) => {
+    let discount = parseInt(e.target.value);
+    if (isNaN(discount)) {
+      discount = "";
+    } else if (discount < 0) {
+      discount = 0;
+    } else if (discount > 100) {
+      discount = 100;
+    }
+    setFormData({
+      ...formData,
+      discount: discount.toString(),
+    });
+  };
   return (
     <div className="MenuEditController">
       <h1>Menu</h1>
@@ -115,18 +129,19 @@ const Menu = () => {
           />
         </div>
         <div>
-          <label>Discount:</label>
+          <label>Discount:(%)</label>
           <input
-            type="text"
+            type="number"
             name="discount"
             value={formData.discount}
-            onChange={handleChange}
+            onChange={handleDiscountChange}
+            min={0}
           />
         </div>
         <div>
-          <label>Price:</label>
+          <label>Price:(vnđ)</label>
           <input
-            type="text"
+            type="number"
             name="price"
             value={formData.price}
             onChange={handleChange}
@@ -147,10 +162,10 @@ const Menu = () => {
         {menu.map((item) => (
           <div className="menuItem" key={item._id}>
             <img src={item.images} alt={item.name} />
-            <p>Tên món:{item.name}</p>
-            <p>Giá:{item.price}</p>
-            <p>Giảm giá:{item.discount}</p>
-            <p>Loại:{tranStringType(item.type)}</p>
+            <p>Tên món: {item.name}</p>
+            <p>Giá: {item.price} vnđ</p>
+            <p>Giảm giá: {item.discount}%</p>
+            <p>Loại: {tranStringType(item.type)}</p>
             <div className="Buttondetail">
               <button onClick={() => handleDelete(item._id)}>Xóa món ăn</button>
             </div>
