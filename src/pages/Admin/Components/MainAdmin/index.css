@@ -1,3 +1,7 @@
+.MainAdminContainer {
+  width: 90%;
+  padding: 20px;
+}
 button {
   margin-top: 10px;
   padding: 10px 20px;
@@ -34,4 +38,14 @@ button {
 p {
   font-weight: 500;
   font-size: 1.25rem;
+}
+.AdminGraph {
+  width: 90%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.AdminGraphItem {
+  width: 40%;
 }

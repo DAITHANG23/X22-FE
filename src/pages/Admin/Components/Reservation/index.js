@@ -68,7 +68,7 @@ const Reservation = () => {
   };
   useEffect(() => {
     getReservation();
-  }, [popup, open]);
+  }, [open, popup]);
 
   const handleEdit = (id, type) => {
     setId(id);

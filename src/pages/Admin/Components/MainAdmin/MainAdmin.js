@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
-import useGetRestaurantDetails from '../../../Dashboard/hooks/useGetRestaurantDetail.js';
-import { useAppContext } from '../../../../context/AppContext.js';
-import DialogCreateRestaurant from '../dialogCreateRestaurant/index.js';
-import DialogEditRestaurant from '../dialogEditRestaurant/index.js';
-import './index.css';
+import React, { useState } from "react";
+import useGetRestaurantDetails from "../../../Dashboard/hooks/useGetRestaurantDetail.js";
+import { useAppContext } from "../../../../context/AppContext.js";
+import DialogCreateRestaurant from "../dialogCreateRestaurant/index.js";
+import DialogEditRestaurant from "../dialogEditRestaurant/index.js";
+import Datbantheongay from "./Graph/datban_theongay.js";
+import Datbantheothang from "./Graph/datban_theothang.js";
+import Doanhthutheothang from "./Graph/doanhthu_theothang.js";
+import Doanhthutheongay from "./Graph/doanhthu_theongay.js";
+import "./index.css";
 
 const MainAdmin = () => {
-  const { idRestaurant } = useAppContext();
+  const { idRestaurant, role } = useAppContext();
   const { restaurantDetailData } = useGetRestaurantDetails(idRestaurant);
   console.log(restaurantDetailData);
 
@@ -31,16 +35,18 @@ const MainAdmin = () => {
     setOpenDialogEdit(false); // Close the dialog
   };
   return (
-    <div className='MainAdminContainer'>
+    <div className="MainAdminContainer">
       {!idRestaurant && (
         <div>
           <h1>Bạn chưa đăng kí nhà hàng</h1>
-          <button
-            style={{ backgroundColor: 'red', color: 'white' }}
-            onClick={handleClickOpenDialogCreate}
-          >
-            Thêm Nhà Hàng
-          </button>
+          {role === 0 && (
+            <button
+              style={{ backgroundColor: "red", color: "white" }}
+              onClick={handleClickOpenDialogCreate}
+            >
+              Thêm Nhà Hàng
+            </button>
+          )}
 
           <DialogCreateRestaurant
             idRestaurant={idRestaurant}
@@ -50,10 +56,10 @@ const MainAdmin = () => {
         </div>
       )}
       {idRestaurant && (
-        <div className='AdminContent'>
+        <div className="AdminContent">
           <h1>Thông tin nhà hàng</h1>
-          <div className='RestaurantDetail'>
-            <div className='RestaurantDetailInfo'>
+          <div className="RestaurantDetail">
+            <div className="RestaurantDetailInfo">
               <h3>
                 Nhà hàng: <span>{name}</span>
               </h3>
@@ -64,12 +70,29 @@ const MainAdmin = () => {
               </p>
             </div>
           </div>
-          <button onClick={handleClickOpenDialogEdit}>Sửa thông tin</button>
+          {role === 2 && (
+            <button onClick={handleClickOpenDialogEdit}>Sửa thông tin</button>
+          )}
+
           <DialogEditRestaurant
             idRestaurant={idRestaurant}
             open={openDialogEdit} // Pass the open state to the dialog component
             handleClose={handleCloseDialogEdit} // Pass the close function to the dialog component
           />
+          <div className="AdminGraph">
+            <div className="AdminGraphItem">
+              <Datbantheongay />
+            </div>
+            <div className="AdminGraphItem">
+              <Datbantheothang />
+            </div>
+            <div className="AdminGraphItem">
+              <Doanhthutheongay />
+            </div>
+            <div className="AdminGraphItem">
+              <Doanhthutheothang />
+            </div>
+          </div>
         </div>
       )}
     </div>

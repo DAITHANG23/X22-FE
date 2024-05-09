@@ -38,18 +38,21 @@ export default {
   },
 
   createRestaurant: (formData) => {
-    console.log(formData);
+    const token = localStorage.getItem("token");
     return axiosWrapper.post("/restaurant/create", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
       },
     });
   },
 
   editRestaurant: ({ idRestaurant, formData }) => {
+    const token = localStorage.getItem("token");
     return axiosWrapper.put(`/restaurant/${idRestaurant}`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
       },
     });
   },
