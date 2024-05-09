@@ -1,6 +1,6 @@
 import React from "react";
 import "./styles.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import reservations from "../../../../api/reservations";
 import CustomModal from "../../../../shares/components/CustomModal";
 import DishesListOrder from "../../../../pages/Dashboard/components/RestaurantDetail/DishesListOrder";
@@ -10,6 +10,10 @@ import IconButton from "@mui/material/IconButton";
 import { useAppContext } from "../../../../context/AppContext";
 import { Button } from "@mui/material";
 import PopUp from "./popup";
+import useGetRestaurantDetails from "../../../Dashboard/hooks/useGetRestaurantDetail";
+import { useQueryClient } from "react-query";
+import { RESTAURANT_DETAIL_QUERY_KEY } from "../../../../pages/Dashboard/constant";
+
 const Reservation = () => {
   const [dataResponse, setDataResponse] = useState([]);
   const [open, setOpen] = useState(false);
@@ -20,6 +24,9 @@ const Reservation = () => {
   const [type, setType] = useState();
   const [popup, setPopup] = useState(false);
   const { token, idRestaurant } = useAppContext();
+  const [tables, setTables] = useState([]);
+  const [tableNumber, setTableNumber] = useState();
+  const [capacity, setCapacity] = useState();
   const RESTAURANTS_DISHES_LIST_DATA = [
     {
       id: "1",
@@ -48,6 +55,30 @@ const Reservation = () => {
       discount: 5,
     },
   ];
+  //
+  const [isRefetch, setIsRefetch] = useState();
+  const queryClient = useQueryClient();
+  const onLick = () => {
+    setOpen(true);
+  };
+  const { restaurantDetailData, refetch } =
+    useGetRestaurantDetails(idRestaurant);
+  useEffect(() => {
+    if (isRefetch) {
+      queryClient.invalidateQueries(RESTAURANT_DETAIL_QUERY_KEY, {
+        refetchInactive: true,
+      });
+      refetch();
+    }
+  }, [isRefetch, refetch, queryClient]);
+  const listMenuRestaurant = useMemo(() => {
+    if (restaurantDetailData?.menu?.length !== 0) {
+      return restaurantDetailData?.menu;
+    }
+    return RESTAURANTS_DISHES_LIST_DATA;
+  }, [restaurantDetailData]);
+  console.log("listMenuRestaurant", listMenuRestaurant);
+  //
   const handleClose = () => {
     setOpen(false);
     setNextStep(false);
@@ -66,8 +97,14 @@ const Reservation = () => {
     const tmp = await reservations.getEmployeeReservations(token);
     setDataResponse(tmp.data.reservations);
   };
+  const getAlltable = async () => {
+    const tmp = await reservations.getAlltable(token);
+    setTables(tmp.data.tables);
+    console.log("tables", tables);
+  };
   useEffect(() => {
     getReservation();
+    getAlltable();
   }, [open, popup]);
 
   const handleEdit = (id, type) => {
@@ -75,7 +112,16 @@ const Reservation = () => {
     setType(type);
     setPopup(true);
   };
-
+  const handleCreateTable = async (e) => {
+    e.preventDefault();
+    const data = {
+      tableNumber: tableNumber,
+      capacity: capacity,
+    };
+    const tmp = await reservations.createTable(token, data);
+    getAlltable();
+    console.log(tmp);
+  };
   return (
     <div className="ReservationContainer">
       <Button onClick={handleOpen}>Đặt bàn cho khách</Button>
@@ -83,7 +129,7 @@ const Reservation = () => {
       <CustomModal open={open} onClose={handleClose}>
         {!nextStep ? (
           <DishesListOrder
-            data={RESTAURANTS_DISHES_LIST_DATA}
+            data={listMenuRestaurant}
             cart={cart}
             setCart={setCart}
             setNextStep={setNextStep}
@@ -173,8 +219,8 @@ const Reservation = () => {
         })}
       </div>
       <div className="line"></div>
+      <h2>Yêu cầu chưa xác nhận</h2>
       <div className="reservationNotAccept">
-        <h2>Yêu cầu chưa xác nhận</h2>
         {dataResponse.length === 0 && <p>Không có yêu cầu đặt bàn nào</p>}
         {dataResponse.map((i, index) => {
           if (i.status === 0) {
@@ -234,6 +280,43 @@ const Reservation = () => {
             );
           } else return null;
         })}
+      </div>
+      <div className="line"></div>
+      <h2>Danh sách bàn</h2>
+      <div className="reservationTable">
+        {tables.length === 0 && <p>Không có bàn nào</p>}
+        <div>
+          <form>
+            <input
+              type="text"
+              placeholder="BÀN SỐ"
+              onChange={(e) => setTableNumber(e.target.value)}
+            ></input>
+            <input
+              type="text"
+              placeholder="SỨC CHỨA"
+              onChange={(e) => setCapacity(e.target.value)}
+            ></input>
+            <button
+              onClick={(e) => {
+                handleCreateTable(e);
+              }}
+            >
+              THÊM
+            </button>
+          </form>
+        </div>
+        <div className="tableContainer">
+          {tables.map((i, index) => {
+            return (
+              <div key={index} className="tabledetail">
+                <div>Bàn số: {i.tableNumber}</div>
+                <div>Loại bàn: {i.capacity}</div>
+                <div>Trạng thái: {i.status}</div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
