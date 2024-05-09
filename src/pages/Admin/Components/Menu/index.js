@@ -70,9 +70,20 @@ const Menu = () => {
   useEffect(() => {
     fetchMenu();
   }, []);
-
+  const tranStringType = (type) => {
+    switch (type) {
+      case 0:
+        return "Đồ ăn";
+      case 1:
+        return "Đồ uống";
+      case 2:
+        return "Combo";
+      default:
+        return "Không xác định";
+    }
+  };
   return (
-    <div>
+    <div className="MenuEditController">
       <h1>Menu</h1>
       <h2>Thêm món ăn</h2>
       <form className={isFormOpen ? "block" : "none"} onSubmit={handleSubmit}>
@@ -139,7 +150,7 @@ const Menu = () => {
             <p>Tên món:{item.name}</p>
             <p>Giá:{item.price}</p>
             <p>Giảm giá:{item.discount}</p>
-            <p>Loại:{item.type}</p>
+            <p>Loại:{tranStringType(item.type)}</p>
             <div className="Buttondetail">
               <button onClick={() => handleDelete(item._id)}>Xóa món ăn</button>
             </div>
