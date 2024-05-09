@@ -70,7 +70,7 @@ const MainAdmin = () => {
               </p>
             </div>
           </div>
-          {role === 2 && (
+          {role === 0 && (
             <button onClick={handleClickOpenDialogEdit}>Sửa thông tin</button>
           )}
 
