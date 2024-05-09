@@ -15,7 +15,7 @@ const MainAdmin = () => {
   console.log(restaurantDetailData);
 
   const { name, phoneNumber, address, images, timeStart, timeEnd } =
-    restaurantDetailData || {};
+    restaurantDetailData.restaurant || {};
   const [openDialogCreate, setOpenDialogCreate] = useState(false);
   const [openDialogEdit, setOpenDialogEdit] = useState(false);
 

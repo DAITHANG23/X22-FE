@@ -1,3 +1,4 @@
+import { createTable } from "@tanstack/react-table";
 import axiosWrapper from "../utils/axios";
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -40,6 +41,20 @@ export default {
     return axiosWrapper.post("reservations/checkout", {
       idReservation: id,
       headers: { Authorization: `Bearer ${token}` },
+    });
+  },
+  getAlltable: (token) => {
+    return axiosWrapper.get("tables", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  },
+  createTable: (token, data) => {
+    return axiosWrapper.post("tables/new", data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
   },
 };
